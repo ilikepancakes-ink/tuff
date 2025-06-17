@@ -1,0 +1,690 @@
+/* CSS Reset and Base Styles */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: #000 url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="star" cx="50%" cy="50%"><stop offset="0%" stop-color="white" stop-opacity="1"/><stop offset="100%" stop-color="white" stop-opacity="0"/></radialGradient></defs><circle cx="100" cy="150" r="1" fill="url(%23star)"/><circle cx="300" cy="80" r="1.5" fill="url(%23star)"/><circle cx="500" cy="200" r="1" fill="url(%23star)"/><circle cx="700" cy="120" r="1" fill="url(%23star)"/><circle cx="900" cy="180" r="1.5" fill="url(%23star)"/><circle cx="150" cy="350" r="1" fill="url(%23star)"/><circle cx="400" cy="300" r="1" fill="url(%23star)"/><circle cx="650" cy="380" r="1.5" fill="url(%23star)"/><circle cx="850" cy="320" r="1" fill="url(%23star)"/><circle cx="200" cy="550" r="1" fill="url(%23star)"/><circle cx="450" cy="500" r="1.5" fill="url(%23star)"/><circle cx="750" cy="580" r="1" fill="url(%23star)"/><circle cx="50" cy="750" r="1" fill="url(%23star)"/><circle cx="350" cy="700" r="1" fill="url(%23star)"/><circle cx="600" cy="780" r="1.5" fill="url(%23star)"/><circle cx="800" cy="720" r="1" fill="url(%23star)"/><circle cx="250" cy="950" r="1" fill="url(%23star)"/><circle cx="550" cy="900" r="1" fill="url(%23star)"/><circle cx="750" cy="980" r="1.5" fill="url(%23star)"/></svg>') repeat;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+/* Accessibility: Skip link */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 6px;
+    background: #000;
+    color: #fff;
+    padding: 8px;
+    text-decoration: none;
+    z-index: 1000;
+    border-radius: 0 0 4px 4px;
+}
+
+.skip-link:focus {
+    top: 0;
+}
+
+/* Screen reader only content */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Header Styles - Retro Window Style */
+header {
+    background: linear-gradient(to bottom, #4a4a4a 0%, #2a2a2a 100%);
+    border: 2px outset #666;
+    margin: 20px auto;
+    max-width: 800px;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(255,255,255,0.1);
+    position: relative;
+}
+
+.window-titlebar {
+    background: linear-gradient(to bottom, #0066cc 0%, #003d7a 100%);
+    padding: 5px 10px;
+    border-radius: 6px 6px 0 0;
+    border-bottom: 1px solid #333;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.window-title {
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+}
+
+.window-controls {
+    display: flex;
+    gap: 2px;
+}
+
+.window-button {
+    width: 16px;
+    height: 14px;
+    border: 1px outset #ccc;
+    background: #c0c0c0;
+    font-size: 10px;
+    line-height: 12px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.window-button:hover {
+    background: #d0d0d0;
+}
+
+.window-button.close {
+    background: #ff6b6b;
+}
+
+header h1 {
+    color: #fff;
+    margin: 20px 0;
+    font-size: 2.5em;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.8), 0 0 10px rgba(255,255,255,0.3);
+    letter-spacing: 2px;
+}
+
+/* Navigation Styles - Retro Buttons */
+.nav-menu {
+    list-style: none;
+    padding: 15px;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    flex-wrap: wrap;
+    background: rgba(0,0,0,0.3);
+    border-top: 1px solid #555;
+}
+
+.nav-menu li {
+    margin: 0;
+}
+
+.nav-menu a {
+    color: #fff;
+    text-decoration: none;
+    padding: 6px 12px;
+    background: linear-gradient(to bottom, #666 0%, #333 100%);
+    border: 1px outset #777;
+    font-weight: bold;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.1s ease;
+    display: inline-block;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.8);
+}
+
+.nav-menu a:hover,
+.nav-menu a:focus {
+    background: linear-gradient(to bottom, #777 0%, #444 100%);
+    border: 1px inset #777;
+    transform: translateY(1px);
+}
+
+.nav-menu a:active {
+    background: linear-gradient(to bottom, #333 0%, #666 100%);
+    border: 1px inset #555;
+}
+
+/* Main Content */
+main {
+    padding: 20px;
+    flex: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* Footer */
+footer {
+    margin-top: auto;
+    padding: 20px;
+    background-color: #c0c0c0;
+    border-top: 2px solid #999;
+    font-size: 0.9em;
+}
+
+.footer-note {
+    margin-top: 10px;
+    opacity: 0.8;
+}
+
+/* Pride and Trans themes */
+body {
+    border-top: 5px solid #5bcefa; /* Trans blue */
+    border-bottom: 5px solid #f5a9b8; /* Trans pink */
+}
+
+/* Typography */
+h1 {
+    color: #000;
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+}
+
+h2 {
+    color: #000;
+    margin-top: 0;
+    font-size: clamp(1.4rem, 3vw, 1.8rem);
+}
+
+p:nth-of-type(odd) {
+    color: #9b59b6; /* Purple from LGBTQ+ flag */
+}
+
+p:nth-of-type(even) {
+    color: #3498db; /* Blue from LGBTQ+ flag */
+}
+
+/* Section Styling - Retro Windows */
+section {
+    margin: 20px auto;
+    padding: 0;
+    background: linear-gradient(to bottom, #4a4a4a 0%, #2a2a2a 100%);
+    border: 2px outset #666;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(255,255,255,0.1);
+    text-align: left;
+    max-width: 700px;
+    position: relative;
+}
+
+.section-titlebar {
+    background: linear-gradient(to bottom, #0066cc 0%, #003d7a 100%);
+    padding: 5px 15px;
+    border-radius: 6px 6px 0 0;
+    border-bottom: 1px solid #333;
+}
+
+.section-title {
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    margin: 0;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+}
+
+.section-content {
+    padding: 20px;
+    background: rgba(0,0,0,0.7);
+    border-radius: 0 0 6px 6px;
+    color: #fff;
+}
+
+/* Retro Banner */
+.retro-banner {
+    background: linear-gradient(to right, #ff0080, #0080ff, #ff0080);
+    padding: 5px;
+    border: 1px solid #fff;
+    margin: 10px 0;
+    font-size: 12px;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.8);
+}
+
+/* Projects Section */
+.project-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.project-item {
+    margin-bottom: 15px;
+}
+
+.project-window {
+    background: linear-gradient(to bottom, #3a3a3a 0%, #1a1a1a 100%);
+    border: 1px outset #555;
+    border-radius: 4px;
+}
+
+.project-titlebar {
+    background: linear-gradient(to bottom, #008000 0%, #004000 100%);
+    padding: 4px 8px;
+    border-radius: 3px 3px 0 0;
+    border-bottom: 1px solid #222;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.project-title {
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.8);
+}
+
+.project-status {
+    font-size: 14px;
+}
+
+.project-content {
+    padding: 12px;
+    color: #ccc;
+    font-size: 13px;
+    background: rgba(0,0,0,0.5);
+    border-radius: 0 0 3px 3px;
+}
+
+/* Retro Form Elements */
+.retro-input,
+.retro-textarea {
+    background: #000;
+    border: 2px inset #666;
+    color: #0f0;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    padding: 5px;
+    margin: 5px;
+    width: calc(100% - 20px);
+}
+
+.retro-input:focus,
+.retro-textarea:focus {
+    outline: none;
+    border-color: #0f0;
+    box-shadow: 0 0 5px #0f0;
+}
+
+.retro-button {
+    background: linear-gradient(to bottom, #c0c0c0 0%, #808080 100%);
+    border: 2px outset #c0c0c0;
+    color: #000;
+    font-weight: bold;
+    font-size: 11px;
+    padding: 6px 12px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    margin: 2px;
+    text-transform: uppercase;
+}
+
+.retro-button:hover {
+    background: linear-gradient(to bottom, #d0d0d0 0%, #909090 100%);
+}
+
+.retro-button:active {
+    border: 2px inset #c0c0c0;
+    background: linear-gradient(to bottom, #808080 0%, #c0c0c0 100%);
+}
+
+/* Contact Section */
+.contact-links {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+/* Popup Ad Styles */
+.popup-ad {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-window {
+    background: linear-gradient(to bottom, #4a4a4a 0%, #2a2a2a 100%);
+    border: 2px outset #666;
+    border-radius: 8px;
+    width: 300px;
+    max-width: 90%;
+    box-shadow: 0 0 20px rgba(255,255,255,0.2);
+}
+
+.popup-titlebar {
+    background: linear-gradient(to bottom, #ff6600 0%, #cc4400 100%);
+    padding: 5px 10px;
+    border-radius: 6px 6px 0 0;
+    border-bottom: 1px solid #333;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.popup-title {
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.8);
+}
+
+.popup-close {
+    background: #ff4444;
+    border: 1px outset #ff6666;
+    color: #fff;
+    width: 18px;
+    height: 16px;
+    font-size: 12px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.popup-close:hover {
+    background: #ff6666;
+}
+
+.popup-content {
+    padding: 15px;
+    text-align: center;
+    color: #fff;
+}
+
+/* Footer Window */
+.footer-window {
+    background: linear-gradient(to bottom, #4a4a4a 0%, #2a2a2a 100%);
+    border: 2px outset #666;
+    margin: 20px auto;
+    max-width: 800px;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(255,255,255,0.1);
+}
+
+.retro-links {
+    margin-top: 15px;
+    font-size: 12px;
+}
+
+.retro-link {
+    color: #5bcefa;
+    text-decoration: none;
+    margin: 0 5px;
+}
+
+.retro-link:hover {
+    color: #f5a9b8;
+    text-decoration: underline;
+}
+
+/* Visitor Counter Styling */
+.visitor-counter {
+    margin-top: 15px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+    border: 1px solid #999;
+}
+
+.visitor-counter p {
+    margin: 5px 0;
+    font-size: 0.9em;
+    color: #000;
+}
+
+/* Background Animation */
+.background-animation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.floating-circles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.floating-text {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+/* Circle Animation */
+.circle {
+    position: absolute;
+    border-radius: 50%;
+    animation: bounce 3s infinite ease-in-out;
+    opacity: 0.1;
+}
+
+.circle.black {
+    background-color: #000;
+    border: 2px solid #333;
+}
+
+.circle.white {
+    background-color: #fff;
+    border: 2px solid #ccc;
+}
+
+/* Text Animation */
+.floating-word {
+    position: absolute;
+    font-family: 'Arial', sans-serif;
+    font-size: 12px;
+    color: rgba(0, 0, 0, 0.1);
+    animation: float 8s infinite linear;
+    white-space: nowrap;
+    pointer-events: none;
+}
+
+/* Keyframe Animations */
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0px) translateX(0px) scale(1);
+    }
+    25% {
+        transform: translateY(-20px) translateX(10px) scale(1.1);
+    }
+    50% {
+        transform: translateY(-40px) translateX(-5px) scale(0.9);
+    }
+    75% {
+        transform: translateY(-20px) translateX(-10px) scale(1.05);
+    }
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.1;
+    }
+    90% {
+        opacity: 0.1;
+    }
+    100% {
+        transform: translateY(-100px) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Responsive adjustments for animations */
+@media screen and (max-width: 768px) {
+    .circle {
+        animation-duration: 4s;
+    }
+
+    .floating-word {
+        font-size: 10px;
+        animation-duration: 10s;
+    }
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+    .circle,
+    .floating-word {
+        animation: none;
+        opacity: 0.05;
+    }
+}
+
+/* Responsive Design - Mobile First Approach */
+@media screen and (max-width: 768px) {
+    header {
+        padding: 15px 10px;
+    }
+
+    .nav-menu {
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .nav-menu a {
+        padding: 12px 24px;
+        width: 200px;
+        text-align: center;
+    }
+
+    main {
+        padding: 15px 10px;
+    }
+
+    section {
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+
+    .contact-links {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .contact-link {
+        width: 200px;
+        text-align: center;
+    }
+
+    .project-status {
+        float: none;
+        display: block;
+        margin-top: 5px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    header {
+        padding: 10px 5px;
+    }
+
+    main {
+        padding: 10px 5px;
+    }
+
+    section {
+        padding: 10px;
+        border-radius: 3px;
+    }
+
+    .nav-menu a,
+    .contact-link {
+        width: 100%;
+        max-width: 280px;
+    }
+}
+
+/* High DPI / Retina Display Support */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    header h1 {
+        text-shadow: 1px 1px #fff, 2px 2px #fff;
+    }
+}
+
+/* Print Styles */
+@media print {
+    body {
+        border: none;
+        background: white;
+        color: black;
+    }
+
+    header, footer {
+        background: white;
+        border: 1px solid black;
+    }
+
+    .nav-menu, .contact-links {
+        display: none;
+    }
+
+    section {
+        box-shadow: none;
+        border: 1px solid black;
+        break-inside: avoid;
+    }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    .nav-menu a:hover,
+    .contact-link:hover {
+        transform: none;
+    }
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+    body {
+        background: white;
+        color: black;
+    }
+
+    header, footer {
+        background: black;
+        color: white;
+    }
+
+    section {
+        border: 2px solid black;
+        background: white;
+    }
+
+    .nav-menu a,
+    .contact-link {
+        border: 2px solid black;
+        background: white;
+        color: black;
+    }
+}

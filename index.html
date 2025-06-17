@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Welcome to ilikepancakes.ink - A cozy corner of the internet.">
+    <meta name="keywords" content="web development, pancakes, retro website, 2009 style, LGBTQ+ friendly, inclusive">
+    <meta name="author" content="ilikepancakes.ink">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ilikepancakes.ink/">
+    <meta property="og:title" content="ilikepancakes.ink :3 - Retro Web Corner">
+    <meta property="og:description" content="Welcome to my corner of the internet!">
+    <meta property="og:image" content="https://ilikepancakes.ink/og-image.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://ilikepancakes.ink/">
+    <meta property="twitter:title" content="ilikepancakes.ink :3 - Retro Web Corner">
+    <meta property="twitter:description" content="Welcome to my corner of the internet!">
+    <meta property="twitter:image" content="https://ilikepancakes.ink/og-image.png">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+
+    <!-- Theme color for mobile browsers -->
+    <meta name="theme-color" content="#c0c0c0">
+    <meta name="msapplication-TileColor" content="#c0c0c0">
+
+    <title>ilikepancakes.ink :3</title>
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Preload critical resources -->
+    <link rel="preload" href="style.css" as="style">
+    <link rel="preload" href="script.js" as="script">
+</head>
+<body>
+    <!-- Animated background -->
+    <div class="background-animation" aria-hidden="true">
+        <div class="floating-circles"></div>
+        <div class="floating-text"></div>
+    </div>
+
+    <!-- Skip to main content link for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <header role="banner">
+        <div class="window-titlebar">
+            <span class="window-title">ilikepancakes.ink</span>
+            <div class="window-controls">
+                <div class="window-button">_</div>
+                <div class="window-button">□</div>
+                <div class="window-button close">×</div>
+            </div>
+        </div>
+        <h1>Welcome to ilikepancakes.ink >_<</h1>
+        <div class="retro-banner">
+            <marquee behavior="scroll" direction="left" scrollamount="3">
+                whats goodie gang
+            </marquee>
+        </div>
+        <nav role="navigation" aria-label="Main navigation">
+            <ul class="nav-menu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#socials">Socials</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="main-content" role="main">
+        <section id="home" aria-labelledby="home-heading">
+            <div class="section-titlebar">
+                <h2 class="section-title" id="home-heading">Welcome to my retro corner! :3</h2>
+            </div>
+            <div class="section-content">
+                <p>Welcome to my corner of the internet! I program shit</p>
+                <p>I make Discord Bots, flutter apps, and more! >~<</p>
+                <p>I also like pancakes</p>
+                <div class="retro-popup" style="margin-top: 15px; padding: 10px; background: #008080; border: 2px outset #00a0a0; color: #fff; font-size: 12px;">
+                    <strong>Fun Fact:</strong> This site is optimized for Internet Explorer 6+ and Netscape Navigator! 😄
+                </div>
+            </div>
+        </section>
+
+        <section id="socials" aria-labelledby="socials-heading">
+            <div class="section-titlebar">
+                <h2 class="section-title" id="socials-heading">Find me online! >_<</h2>
+            </div>
+            <div class="section-content">
+                <p>Connect with me on these platforms! :3</p>
+                <div class="contact-links">
+                    <a href="maito:whatsgoodiegang@ilikepancakes.ink" class="contact-link retro-button" aria-label="Send email">
+                        📧 Email
+                    </a>
+                    <a href="#" class="contact-link retro-button" aria-label="Visit GitHub profile" rel="noopener noreferrer" target="https:/github.com/pancakes-proxy">
+                        🐙 GitHub
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Retro Popup Ad -->
+    <div id="popup-ad" class="popup-ad" style="display: none;">
+        <div class="popup-window">
+            <div class="popup-titlebar">
+                <span class="popup-title">🥞 PANCAKE PARADISE! 🥞</span>
+                <button class="popup-close" onclick="closePopup()">&times;</button>
+            </div>
+            <div class="popup-content">
+                <marquee behavior="scroll" direction="up" height="60" scrollamount="2">
+                    <strong>VISIT PANCAKE.PEAKNESS.ORG NOW!!!!!!</strong><br>
+                    🥞 FREE PANCAKE RECIPES! 🥞<br>
+                    🧈 BUTTER TIPS & TRICKS! 🧈<br>
+                    🍯 SYRUP REVIEWS! 🍯
+                </marquee>
+                <button class="retro-button" onclick="window.open('#', '_blank')">VISIT NOW!</button>
+            </div>
+        </div>
+    </div>
+
+    <footer role="contentinfo">
+        <div class="footer-window">
+            <div class="section-titlebar">
+                <h3 class="section-title">Footer Info</h3>
+            </div>
+            <div class="section-content">
+                <p>&copy; 2025 ilikepancakes.ink | Made with 💜 and nostalgia</p>
+                <p class="footer-note">
+                    <small>whats goodie gang :3/small>
+                </p>
+                <div class="visitor-counter">
+                    <p><strong>Visitor Counter:</strong></p>
+                    <img src="https://count.getloli.com/@tuffsite?name=tuffsite&theme=booru-lewd&padding=7&offset=0&align=top&scale=1&pixelated=1&darkmode=auto"
+                         alt="Visitor counter showing site visits"
+                         loading="lazy"
+                         style="image-rendering: pixelated; image-rendering: -moz-crisp-edges; image-rendering: crisp-edges;">
+                </div>
+                <div class="retro-links">
+                    <a href="#" class="retro-link">Webring</a> |
+                    <a href="#" class="retro-link">Link Exchange</a> |
+                    <a href="#" class="retro-link">Awards</a> |
+                    <a href="mailto:webmaster@ilikepancakes.ink" class="retro-link">Webmaster</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Load JavaScript with proper error handling -->
+    <script src="script.js" defer onerror="console.warn('Script failed to load')"></script>
+
+    <!-- Structured data for SEO -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "ilikepancakes.ink",
+        "url": "https://ilikepancakes.ink",
+        "description": "tuff",
+        "sameAs": [
+            "https://github.com/pancakes-proxy"
+        ]
+    }
+    </script>
+</body>
+</html>

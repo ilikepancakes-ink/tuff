@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>500 - Server Error | ilikepancakes.ink >_<</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .error-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 40px;
+            background: #fff;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 4px 4px 8px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+        
+        .error-code {
+            font-size: 4em;
+            font-weight: bold;
+            color: #e74c3c;
+            text-shadow: 3px 3px #fff;
+            margin: 0;
+        }
+        
+        .error-message {
+            font-size: 1.5em;
+            color: #333;
+            margin: 20px 0;
+        }
+        
+        .burnt-pancake {
+            font-size: 3em;
+            margin: 20px 0;
+            animation: smoke 3s infinite ease-in-out;
+        }
+        
+        @keyframes smoke {
+            0%, 100% { transform: translateY(0px); opacity: 1; }
+            50% { transform: translateY(-10px); opacity: 0.7; }
+        }
+        
+        .back-link {
+            display: inline-block;
+            padding: 15px 30px;
+            background: linear-gradient(to bottom, #e0e0e0, #c0c0c0);
+            border: 2px solid #999;
+            border-radius: 5px;
+            text-decoration: none;
+            color: #000;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: all 0.2s ease;
+        }
+        
+        .back-link:hover {
+            background: linear-gradient(to bottom, #d0d0d0, #b0b0b0);
+            transform: translateY(1px);
+        }
+    </style>
+</head>
+<body>
+    <div class="background-animation" aria-hidden="true">
+        <div class="floating-circles"></div>
+        <div class="floating-text"></div>
+    </div>
+    
+    <header>
+        <h1>ilikepancakes.ink >_<</h1>
+    </header>
+    
+    <main>
+        <div class="error-container">
+            <div class="error-code">500</div>
+            <div class="burnt-pancake">🔥🥞</div>
+            <div class="error-message">Oops! The server burnt the pancakes! >~<</div>
+            <p>Something went wrong on our end. Don't worry, we're flipping through the code to fix it! Please try again in a moment. :3</p>
+            <a href="/" class="back-link">🏠 Back to Homepage</a>
+        </div>
+    </main>
+    
+    <footer>
+        <p>&copy; 2025 ilikepancakes.ink | Even our servers love pancakes! 💜</p>
+    </footer>
+    
+    <script>
+        // Simplified script for error page
+        console.log("Server error detected - but we're still retro! >_<");
+        
+        // Auto-retry after 30 seconds
+        setTimeout(() => {
+            if (confirm("Would you like to try reloading the page? :3")) {
+                window.location.reload();
+            }
+        }, 30000);
+    </script>
+</body>
+</html>
