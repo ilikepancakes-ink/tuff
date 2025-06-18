@@ -55,56 +55,30 @@ body {
     border: 0;
 }
 
-/* Header Styles - Retro Window Style */
+/* Header Styles - Simple Box */
 header {
-    background: linear-gradient(to bottom, #4a4a4a 0%, #2a2a2a 100%);
-    border: 2px outset #666;
+    background: #000;
+    border: 2px solid #fff;
     margin: 20px auto;
     max-width: 800px;
-    border-radius: 8px;
-    box-shadow: 0 0 20px rgba(255,255,255,0.1);
     position: relative;
+    padding: 20px;
 }
 
 .window-titlebar {
-    background: linear-gradient(to bottom, #0066cc 0%, #003d7a 100%);
-    padding: 5px 10px;
-    border-radius: 6px 6px 0 0;
-    border-bottom: 1px solid #333;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    display: none; /* Remove complex window styling */
 }
 
 .window-title {
-    color: #fff;
-    font-size: 12px;
-    font-weight: bold;
-    text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+    display: none;
 }
 
 .window-controls {
-    display: flex;
-    gap: 2px;
+    display: none;
 }
 
 .window-button {
-    width: 16px;
-    height: 14px;
-    border: 1px outset #ccc;
-    background: #c0c0c0;
-    font-size: 10px;
-    line-height: 12px;
-    text-align: center;
-    cursor: pointer;
-}
-
-.window-button:hover {
-    background: #d0d0d0;
-}
-
-.window-button.close {
-    background: #ff6b6b;
+    display: none;
 }
 
 header h1 {
@@ -172,9 +146,14 @@ main {
 footer {
     margin-top: auto;
     padding: 20px;
-    background-color: #c0c0c0;
-    border-top: 2px solid #999;
+    background: #000;
+    border: 2px solid #fff;
+    border-top: 2px solid #fff;
     font-size: 0.9em;
+    color: #fff;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .footer-note {
@@ -182,32 +161,7 @@ footer {
     opacity: 0.8;
 }
 
-/* Pride and Trans themes */
-body {
-    border-top: 5px solid #5bcefa; /* Trans blue */
-    border-bottom: 5px solid #f5a9b8; /* Trans pink */
-}
-
-/* Trans flag stripe from bottom left corner */
-body::before {
-    content: '';
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 1000px;
-    height: 200px;
-    background: repeating-linear-gradient(45deg,
-        #5bcefa 0px, #5bcefa 40px,      /* Light blue band */
-        #f5a9b8 40px, #f5a9b8 80px,     /* Pink band */
-        #ffffff 80px, #ffffff 120px,     /* White band */
-        #f5a9b8 120px, #f5a9b8 160px,   /* Pink band */
-        #5bcefa 160px, #5bcefa 200px    /* Light blue band */
-    );
-    transform-origin: bottom left;
-    z-index: 10;
-    pointer-events: none;
-    box-shadow: 0 -5px 20px rgba(0,0,0,0.4);
-}
+/* Remove pride flag elements */
 
 /* Typography */
 h1 {
@@ -221,46 +175,38 @@ h2 {
     font-size: clamp(1.4rem, 3vw, 1.8rem);
 }
 
-p:nth-of-type(odd) {
-    color: #9b59b6; /* Purple from LGBTQ+ flag */
+p {
+    color: #fff;
 }
 
-p:nth-of-type(even) {
-    color: #3498db; /* Blue from LGBTQ+ flag */
-}
-
-/* Section Styling - Retro Windows */
+/* Section Styling - Simple Boxes */
 section {
     margin: 20px auto;
-    padding: 0;
-    background: linear-gradient(to bottom, #4a4a4a 0%, #2a2a2a 100%);
-    border: 2px outset #666;
-    border-radius: 8px;
-    box-shadow: 0 0 15px rgba(255,255,255,0.1);
+    padding: 20px;
+    background: #000;
+    border: 2px solid #fff;
     text-align: left;
     max-width: 700px;
     position: relative;
+    color: #fff;
 }
 
 .section-titlebar {
-    background: linear-gradient(to bottom, #0066cc 0%, #003d7a 100%);
-    padding: 5px 15px;
-    border-radius: 6px 6px 0 0;
-    border-bottom: 1px solid #333;
+    display: none; /* Remove the complex titlebar */
 }
 
 .section-title {
     color: #fff;
-    font-size: 14px;
+    font-size: 18px;
     font-weight: bold;
-    margin: 0;
-    text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+    margin: 0 0 15px 0;
+    border-bottom: 1px solid #fff;
+    padding-bottom: 5px;
 }
 
 .section-content {
-    padding: 20px;
-    background: rgba(0,0,0,0.7);
-    border-radius: 0 0 6px 6px;
+    padding: 0;
+    background: transparent;
     color: #fff;
 }
 
@@ -437,12 +383,12 @@ section {
 
 /* Footer Window */
 .footer-window {
-    background: linear-gradient(to bottom, #4a4a4a 0%, #2a2a2a 100%);
-    border: 2px outset #666;
-    margin: 20px auto;
-    max-width: 800px;
-    border-radius: 8px;
-    box-shadow: 0 0 20px rgba(255,255,255,0.1);
+    background: transparent;
+    border: none;
+    margin: 0;
+    max-width: none;
+    border-radius: 0;
+    box-shadow: none;
 }
 
 .retro-links {
@@ -451,13 +397,13 @@ section {
 }
 
 .retro-link {
-    color: #5bcefa;
+    color: #fff;
     text-decoration: none;
     margin: 0 5px;
 }
 
 .retro-link:hover {
-    color: #f5a9b8;
+    color: #ccc;
     text-decoration: underline;
 }
 
