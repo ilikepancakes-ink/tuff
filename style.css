@@ -3,18 +3,25 @@
     box-sizing: border-box;
 }
 
+html {
+    height: 100%;
+}
+
 body {
     font-family: 'Arial', sans-serif;
     background: #000 url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="star" cx="50%" cy="50%"><stop offset="0%" stop-color="white" stop-opacity="1"/><stop offset="100%" stop-color="white" stop-opacity="0"/></radialGradient></defs><circle cx="100" cy="150" r="1" fill="url(%23star)"/><circle cx="300" cy="80" r="1.5" fill="url(%23star)"/><circle cx="500" cy="200" r="1" fill="url(%23star)"/><circle cx="700" cy="120" r="1" fill="url(%23star)"/><circle cx="900" cy="180" r="1.5" fill="url(%23star)"/><circle cx="150" cy="350" r="1" fill="url(%23star)"/><circle cx="400" cy="300" r="1" fill="url(%23star)"/><circle cx="650" cy="380" r="1.5" fill="url(%23star)"/><circle cx="850" cy="320" r="1" fill="url(%23star)"/><circle cx="200" cy="550" r="1" fill="url(%23star)"/><circle cx="450" cy="500" r="1.5" fill="url(%23star)"/><circle cx="750" cy="580" r="1" fill="url(%23star)"/><circle cx="50" cy="750" r="1" fill="url(%23star)"/><circle cx="350" cy="700" r="1" fill="url(%23star)"/><circle cx="600" cy="780" r="1.5" fill="url(%23star)"/><circle cx="800" cy="720" r="1" fill="url(%23star)"/><circle cx="250" cy="950" r="1" fill="url(%23star)"/><circle cx="550" cy="900" r="1" fill="url(%23star)"/><circle cx="750" cy="980" r="1.5" fill="url(%23star)"/></svg>') repeat;
+    background-attachment: fixed;
     color: #fff;
     margin: 0;
     padding: 0;
     text-align: center;
     line-height: 1.6;
     min-height: 100vh;
+    height: 100%;
     display: flex;
     flex-direction: column;
     overflow-x: hidden;
+    position: relative;
 }
 
 /* Accessibility: Skip link */
@@ -178,6 +185,29 @@ footer {
 body {
     border-top: 5px solid #5bcefa; /* Trans blue */
     border-bottom: 5px solid #f5a9b8; /* Trans pink */
+}
+
+/* Trans flag stripe from bottom left to closest box */
+body::before {
+    content: '';
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 600px;
+    height: 20px;
+    background: linear-gradient(45deg,
+        #5bcefa 0%, #5bcefa 20%,     /* Light blue */
+        #f5a9b8 20%, #f5a9b8 40%,    /* Pink */
+        #ffffff 40%, #ffffff 60%,     /* White */
+        #f5a9b8 60%, #f5a9b8 80%,    /* Pink */
+        #5bcefa 80%, #5bcefa 100%    /* Light blue */
+    );
+    transform: rotate(25deg);
+    transform-origin: bottom left;
+    z-index: 10;
+    opacity: 0.8;
+    pointer-events: none;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.3);
 }
 
 /* Typography */

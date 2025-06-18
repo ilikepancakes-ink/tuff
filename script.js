@@ -20,7 +20,7 @@ if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    console.log("Initializing 2009-style animations! ✨");
+    console.log("DOMContentLoaded event triggered! Starting fuckass animations...");
 
     if (animationEnabled) {
         startFloatingText();
@@ -32,11 +32,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 3000);
 
     setTimeout(() => {
-        console.log("🥞 Did someone say pancakes?");
+        console.log("idk g");
     }, 2000);
 
     setTimeout(() => {
-        console.log("💜 Thanks for visiting my retro corner of the web!");
+        console.log("tuff");
     }, 5000);
 });
 
@@ -154,7 +154,7 @@ document.addEventListener('keydown', function(e) {
     if (konamiCode.length === konamiSequence.length &&
         konamiCode.every((code, index) => code === konamiSequence[index])) {
 
-        console.log("🥞🥞🥞 PANCAKE POWER ACTIVATED! 🥞🥞🥞");
+        console.log("konami shit activated");
 
         for (let i = 0; i < 20; i++) {
             setTimeout(() => {
@@ -186,7 +186,7 @@ function showPopup() {
     const popup = document.getElementById('popup-ad');
     if (popup) {
         popup.style.display = 'flex';
-        console.log("🎉 Popup activated! Classic 2009 experience!");
+        console.log(".Popup shown! Remember to disable AdBlock! >_<");
     }
 }
 
@@ -212,5 +212,5 @@ document.addEventListener('click', function(e) {
 
 if (window.performance && window.performance.mark) {
     window.performance.mark('script-loaded');
-    console.log("⚡ Script performance marked!");
+    console.log("Script loaded!");
 }
