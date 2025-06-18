@@ -320,6 +320,45 @@ section {
     margin-top: 20px;
 }
 
+/* Q&A Section Styles */
+.qna-item {
+    margin-bottom: 20px;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid #555;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.question {
+    background: linear-gradient(to bottom, #333 0%, #222 100%);
+    padding: 10px 15px;
+    border-bottom: 1px solid #555;
+}
+
+.question h3 {
+    color: #fff;
+    margin: 0;
+    font-size: 14px;
+    font-weight: bold;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.8);
+}
+
+.answer {
+    padding: 15px;
+    background: rgba(0,0,0,0.2);
+}
+
+.answer p {
+    color: #ccc;
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.answer strong {
+    color: #fff;
+}
+
 /* Popup Ad Styles */
 .popup-ad {
     position: fixed;
