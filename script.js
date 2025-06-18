@@ -1,41 +1,36 @@
-// Enhanced script for ilikepancakes.ink with 2009 vibes
 console.log("Welcome to ilikepancakes.ink! >_<");
 
-// Random words that float in the background
 const floatingWords = [
     "pancakes", "syrup", "butter", "fluffy", "stack", "breakfast", "yummy", ":3", ">_<", ">~<",
     "web dev", "HTML", "CSS", "JavaScript", "retro", "2009", "nostalgia", "pixels", "gradients",
     "rainbow", "pride", "love", "inclusive", "community", "coding", "creative", "fun", "cozy",
     "aesthetic", "vibes", "chill", "uwu", "owo", "nya", "meow", "purr", "soft", "warm",
-    "digital", "internet", "website", "homepage", "blog", "portfolio", "projects", "dreams"
+    "digital", "internet", "website", "homepage", "blog", "portfolio", "projects", "dreams",
+    "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R",
+    "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "S", "T", "U", "V", "W", "X", "Y", "Z",
+    "goon :3", "i use arch btw", "arch is better than windows", "Arch Linux"
 ];
 
-// Animation state management
 let animationEnabled = true;
 let circles = [];
 let textElements = [];
 
-// Check for reduced motion preference
 if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     animationEnabled = false;
 }
 
-// Initialize animations when page loads
 document.addEventListener('DOMContentLoaded', function() {
     console.log("Initializing 2009-style animations! ✨");
 
     if (animationEnabled) {
-        initializeBackgroundAnimations();
         startFloatingText();
         startBouncingCircles();
     }
 
-    // Show popup after a delay (classic 2009 behavior!)
     setTimeout(() => {
         showPopup();
     }, 3000);
 
-    // Add some retro console messages
     setTimeout(() => {
         console.log("🥞 Did someone say pancakes?");
     }, 2000);
@@ -45,17 +40,14 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 5000);
 });
 
-// Create bouncing circles
 function startBouncingCircles() {
     const circlesContainer = document.querySelector('.floating-circles');
     if (!circlesContainer) return;
 
-    // Create initial circles
     for (let i = 0; i < 8; i++) {
         createCircle(circlesContainer);
     }
 
-    // Add new circles periodically
     setInterval(() => {
         if (circles.length < 12) {
             createCircle(circlesContainer);
@@ -67,23 +59,19 @@ function createCircle(container) {
     const circle = document.createElement('div');
     circle.className = `circle ${Math.random() > 0.5 ? 'black' : 'white'}`;
 
-    // Random size between 20px and 80px
     const size = Math.random() * 60 + 20;
     circle.style.width = size + 'px';
     circle.style.height = size + 'px';
 
-    // Random starting position
     circle.style.left = Math.random() * (window.innerWidth - size) + 'px';
     circle.style.top = Math.random() * (window.innerHeight - size) + 'px';
 
-    // Random animation delay
     circle.style.animationDelay = Math.random() * 3 + 's';
     circle.style.animationDuration = (Math.random() * 2 + 2) + 's';
 
     container.appendChild(circle);
     circles.push(circle);
 
-    // Remove circle after some time to prevent memory leaks
     setTimeout(() => {
         if (circle.parentNode) {
             circle.parentNode.removeChild(circle);
@@ -92,12 +80,10 @@ function createCircle(container) {
     }, 15000);
 }
 
-// Create floating text
 function startFloatingText() {
     const textContainer = document.querySelector('.floating-text');
     if (!textContainer) return;
 
-    // Create floating words periodically
     setInterval(() => {
         if (textElements.length < 15) {
             createFloatingWord(textContainer);
@@ -110,32 +96,41 @@ function createFloatingWord(container) {
     word.className = 'floating-word';
     word.textContent = floatingWords[Math.floor(Math.random() * floatingWords.length)];
 
-    // Random horizontal position
     word.style.left = Math.random() * (window.innerWidth - 100) + 'px';
+    word.style.top = Math.random() * (window.innerHeight - 50) + 'px';
 
-    // Random animation duration
-    word.style.animationDuration = (Math.random() * 4 + 6) + 's';
-    word.style.animationDelay = Math.random() * 2 + 's';
+    const moveX = (Math.random() - 0.5) * 200;
+    const moveY = (Math.random() - 0.5) * 200;
+    const duration = Math.random() * 8 + 10;
 
-    // Random font variations for that 2009 feel
-    const fonts = ['Arial', 'Verdana', 'Tahoma', 'Georgia'];
+    word.style.animation = `floatAround ${duration}s infinite ease-in-out`;
+    word.style.setProperty('--moveX', moveX + 'px');
+    word.style.setProperty('--moveY', moveY + 'px');
+
+    const fonts = ['Arial', 'Verdana', 'Tahoma', 'Georgia', 'Courier New'];
     word.style.fontFamily = fonts[Math.floor(Math.random() * fonts.length)];
+
+    const colors = [
+        'rgba(255, 255, 255, 0.3)',
+        'rgba(0, 255, 255, 0.3)',
+        'rgba(255, 0, 255, 0.3)',
+        'rgba(255, 255, 0, 0.3)',
+        'rgba(0, 255, 0, 0.3)'
+    ];
+    word.style.color = colors[Math.floor(Math.random() * colors.length)];
 
     container.appendChild(word);
     textElements.push(word);
 
-    // Remove word after animation completes
     setTimeout(() => {
         if (word.parentNode) {
             word.parentNode.removeChild(word);
             textElements = textElements.filter(t => t !== word);
         }
-    }, 10000);
+    }, duration * 1000 + 2000);
 }
 
-// Handle window resize
 window.addEventListener('resize', function() {
-    // Reposition elements that might be off-screen
     circles.forEach(circle => {
         const rect = circle.getBoundingClientRect();
         if (rect.left > window.innerWidth) {
@@ -147,9 +142,8 @@ window.addEventListener('resize', function() {
     });
 });
 
-// Easter egg: Konami code for extra pancakes
 let konamiCode = [];
-const konamiSequence = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65]; // ↑↑↓↓←→←→BA
+const konamiSequence = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65];
 
 document.addEventListener('keydown', function(e) {
     konamiCode.push(e.keyCode);
@@ -162,7 +156,6 @@ document.addEventListener('keydown', function(e) {
 
         console.log("🥞🥞🥞 PANCAKE POWER ACTIVATED! 🥞🥞🥞");
 
-        // Create a burst of pancake emojis
         for (let i = 0; i < 20; i++) {
             setTimeout(() => {
                 const pancake = document.createElement('div');
@@ -185,11 +178,10 @@ document.addEventListener('keydown', function(e) {
             }, i * 100);
         }
 
-        konamiCode = []; // Reset
+        konamiCode = [];
     }
 });
 
-// Popup functions
 function showPopup() {
     const popup = document.getElementById('popup-ad');
     if (popup) {
@@ -206,7 +198,6 @@ function closePopup() {
     }
 }
 
-// Window control functions (just for show)
 document.addEventListener('click', function(e) {
     if (e.target.classList.contains('window-button')) {
         if (e.target.textContent === '×') {
@@ -219,7 +210,6 @@ document.addEventListener('click', function(e) {
     }
 });
 
-// Performance monitoring
 if (window.performance && window.performance.mark) {
     window.performance.mark('script-loaded');
     console.log("⚡ Script performance marked!");

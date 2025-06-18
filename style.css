@@ -491,13 +491,16 @@ section {
 
 /* Text Animation */
 .floating-word {
-    position: absolute;
+    position: fixed;
     font-family: 'Arial', sans-serif;
     font-size: 12px;
-    color: rgba(0, 0, 0, 0.1);
-    animation: float 8s infinite linear;
+    color: rgba(255, 255, 255, 0.5);
     white-space: nowrap;
     pointer-events: none;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.9);
+    z-index: 1;
+    font-weight: bold;
+    user-select: none;
 }
 
 /* Keyframe Animations */
@@ -530,6 +533,29 @@ section {
     100% {
         transform: translateY(-100px) rotate(360deg);
         opacity: 0;
+    }
+}
+
+@keyframes floatAround {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+        opacity: 0.8;
+    }
+    25% {
+        transform: translate(var(--moveX), var(--moveY)) rotate(90deg);
+        opacity: 0.6;
+    }
+    50% {
+        transform: translate(calc(var(--moveX) * -0.5), calc(var(--moveY) * 1.5)) rotate(180deg);
+        opacity: 0.8;
+    }
+    75% {
+        transform: translate(calc(var(--moveX) * 1.2), calc(var(--moveY) * -0.8)) rotate(270deg);
+        opacity: 0.4;
+    }
+    100% {
+        transform: translate(0, 0) rotate(360deg);
+        opacity: 0.8;
     }
 }
 
