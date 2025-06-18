@@ -5,6 +5,7 @@
 
 html {
     height: 100%;
+    background: #000;
 }
 
 body {
@@ -187,27 +188,25 @@ body {
     border-bottom: 5px solid #f5a9b8; /* Trans pink */
 }
 
-/* Trans flag stripe from bottom left to closest box */
+/* Trans flag stripe from bottom left corner */
 body::before {
     content: '';
     position: fixed;
     bottom: 0;
     left: 0;
-    width: 600px;
-    height: 20px;
-    background: linear-gradient(45deg,
-        #5bcefa 0%, #5bcefa 20%,     /* Light blue */
-        #f5a9b8 20%, #f5a9b8 40%,    /* Pink */
-        #ffffff 40%, #ffffff 60%,     /* White */
-        #f5a9b8 60%, #f5a9b8 80%,    /* Pink */
-        #5bcefa 80%, #5bcefa 100%    /* Light blue */
+    width: 1000px;
+    height: 200px;
+    background: repeating-linear-gradient(45deg,
+        #5bcefa 0px, #5bcefa 40px,      /* Light blue band */
+        #f5a9b8 40px, #f5a9b8 80px,     /* Pink band */
+        #ffffff 80px, #ffffff 120px,     /* White band */
+        #f5a9b8 120px, #f5a9b8 160px,   /* Pink band */
+        #5bcefa 160px, #5bcefa 200px    /* Light blue band */
     );
-    transform: rotate(25deg);
     transform-origin: bottom left;
     z-index: 10;
-    opacity: 0.8;
     pointer-events: none;
-    box-shadow: 0 -2px 10px rgba(0,0,0,0.3);
+    box-shadow: 0 -5px 20px rgba(0,0,0,0.4);
 }
 
 /* Typography */
