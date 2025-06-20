@@ -524,6 +524,80 @@ section {
     color: #000;
 }
 
+/* TETO TERRITORY Banner Ads */
+.teto-banner-left,
+.teto-banner-right {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 120px;
+    height: 200px;
+    background: #ffffff;
+    border: 3px solid #000;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: tetoBounce 3s ease-in-out infinite;
+}
+
+.teto-banner-left {
+    left: 10px;
+}
+
+.teto-banner-right {
+    right: 10px;
+}
+
+.teto-banner-content {
+    text-align: center;
+    padding: 10px;
+    width: 100%;
+}
+
+.teto-banner-title {
+    font-family: 'Arial', sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    color: #ff0066;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.teto-banner-image {
+    width: 60px;
+    height: auto;
+    margin: 5px 0;
+    border-radius: 4px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.teto-banner-subtitle {
+    font-family: 'Arial', sans-serif;
+    font-size: 9px;
+    font-weight: bold;
+    color: #000;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 8px;
+    line-height: 1.2;
+}
+
+@keyframes tetoBounce {
+    0%, 100% {
+        transform: translateY(-50%) scale(1);
+    }
+    50% {
+        transform: translateY(-50%) scale(1.05);
+    }
+}
+
 /* Background Animation */
 .background-animation {
     position: fixed;
@@ -698,6 +772,12 @@ section {
         float: none;
         display: block;
         margin-top: 5px;
+    }
+
+    /* Hide TETO banners on mobile to avoid clutter */
+    .teto-banner-left,
+    .teto-banner-right {
+        display: none;
     }
 }
 
