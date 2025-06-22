@@ -1,0 +1,1476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="cute guide for LFS :3">
+    <meta name="keywords" content="Linux From Scratch, LFS, build Linux, compile kernel, GNU/Linux tutorial">
+    <meta name="author" content="ilikepancakes.ink">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://ilikepancakes.ink/linux/gnu-linux.html">
+    <meta property="og:title" content="LFS >.<">
+    <meta property="og:description" content="cute guide for LFS :3">
+    <meta property="og:image" content="https://ilikepancakes.ink/og-image.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://ilikepancakes.ink/linux/gnu-linux.html">
+    <meta property="twitter:title" content="LFS >.<">
+    <meta property="twitter:description" content="cute guide for LFS :3">
+    <meta property="twitter:image" content="https://ilikepancakes.ink/og-image.png">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+
+    <!-- Theme color for mobile browsers -->
+    <meta name="theme-color" content="#c0c0c0">
+    <meta name="msapplication-TileColor" content="#c0c0c0">
+
+    <title>LFS >.<</title>
+    <link rel="stylesheet" href="../style.css">
+
+    <!-- Preload critical resources -->
+    <link rel="preload" href="../style.css" as="style">
+    <link rel="preload" href="../script.js" as="script">
+
+    <style>
+        /* Additional styles for tutorial content */
+        .code-block {
+            background: #000;
+            border: 2px inset #666;
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            padding: 10px;
+            margin: 10px 0;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            border-radius: 3px;
+        }
+
+        .warning-box {
+            background: linear-gradient(to bottom, #ff6600 0%, #cc4400 100%);
+            border: 2px outset #ff8833;
+            color: #fff;
+            padding: 10px;
+            margin: 15px 0;
+            border-radius: 5px;
+            font-weight: bold;
+            text-shadow: 1px 1px 1px rgba(0,0,0,0.8);
+        }
+
+        .info-box {
+            background: linear-gradient(to bottom, #0066ff 0%, #0044cc 100%);
+            border: 2px outset #3388ff;
+            color: #fff;
+            padding: 10px;
+            margin: 15px 0;
+            border-radius: 5px;
+            text-shadow: 1px 1px 1px rgba(0,0,0,0.8);
+        }
+
+        .step-counter {
+            background: linear-gradient(to bottom, #008000 0%, #004000 100%);
+            border: 2px outset #00aa00;
+            color: #fff;
+            padding: 5px 10px;
+            margin: 10px 0;
+            border-radius: 3px;
+            font-weight: bold;
+            text-shadow: 1px 1px 1px rgba(0,0,0,0.8);
+            display: inline-block;
+        }
+
+        .toc {
+            background: rgba(74, 52, 84, 0.4);
+            border: 2px solid rgba(74, 11, 31, 0.8);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .toc ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .toc li {
+            margin: 5px 0;
+            padding-left: 15px;
+            position: relative;
+        }
+
+        .toc li:before {
+            content: "▶";
+            position: absolute;
+            left: 0;
+            color: #5bcefa;
+        }
+
+        .toc a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .toc a:hover {
+            color: #5bcefa;
+            text-shadow: 0 0 5px #5bcefa;
+        }
+
+        .chapter-title {
+            background: linear-gradient(to right, #4A0B1F, #6B2A42, #8A5A6B);
+            padding: 10px;
+            border: 2px outset rgba(255, 255, 255, 0.6);
+            margin: 20px 0 10px 0;
+            font-size: 18px;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 2px 2px 2px rgba(0,0,0,0.8);
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated background -->
+    <div class="background-animation" aria-hidden="true">
+        <div class="floating-circles"></div>
+        <div class="floating-text"></div>
+    </div>
+
+    <!-- Skip to main content link for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- TETO TERRITORY Banner Ads -->
+    <div class="teto-banner-left" aria-hidden="true">
+        <div class="teto-banner-content">
+            <div class="teto-banner-title">TETO TERRITORY</div>
+            <img src="../teto-peaking.png" alt="Teto peaking" class="teto-banner-image">
+            <div class="teto-banner-subtitle">JOIN THE TETO ARMY TODAY</div>
+        </div>
+    </div>
+
+    <div class="teto-banner-right" aria-hidden="true">
+        <div class="teto-banner-content">
+            <div class="teto-banner-title">TETO TERRITORY</div>
+            <img src="../teto-peaking.png" alt="Teto peaking" class="teto-banner-image">
+            <div class="teto-banner-subtitle">JOIN THE TETO ARMY TODAY</div>
+        </div>
+    </div>
+
+    <header role="banner">
+        <h1>Linux From Scratch Tutorial 🐧</h1>
+        <div class="retro-banner">
+            <marquee behavior="scroll" direction="left" scrollamount="3">
+                Build your own Linux system from source code! No pre-compiled packages! Pure GNU/Linux power! :3
+            </marquee>
+        </div>
+        <nav role="navigation" aria-label="Main navigation">
+            <ul class="nav-menu">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../qna.html">Q&A</a></li>
+                <li><a href="archlinux.html">Arch Linux</a></li>
+                <li><a href="#toc">Table of Contents</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="main-content" role="main">
+        <section id="intro" aria-labelledby="intro-heading">
+            <h2 class="section-title" id="intro-heading">Welcome to Linux From Scratch! >_<</h2>
+            <div class="section-content">
+                <p>LFS >.<</p>
+
+                <div class="info-box">
+                    <strong>What is Linux From Scratch (LFS)?</strong><br>
+                    LFS is a project that provides step-by-step instructions for building your own custom Linux system entirely from source code. You'll compile everything yourself, from the kernel to the shell!
+                </div>
+
+                <div class="warning-box">
+                    <strong>⚠️ WARNING:</strong> This process takes 6-20 hours depending on your hardware and can be quite challenging. Make sure you have patience and a good understanding of Linux basics before starting!
+                </div>
+
+                <p><strong>What you'll learn:</strong></p>
+                <ul>
+                    <li>How Linux systems are constructed from the ground up</li>
+                    <li>The relationship between kernel, libraries, and userspace</li>
+                    <li>Cross-compilation and toolchain building</li>
+                    <li>Package management without package managers</li>
+                    <li>System initialization and boot processes</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="toc" aria-labelledby="toc-heading">
+            <h2 class="section-title" id="toc-heading">Table of Contents 📋</h2>
+            <div class="section-content">
+                <div class="toc">
+                    <ul>
+                        <li><a href="#requirements">Chapter 1: Requirements & Preparation</a></li>
+                        <li><a href="#host-system">Chapter 2: Preparing the Host System</a></li>
+                        <li><a href="#packages">Chapter 3: Downloading Source Packages</a></li>
+                        <li><a href="#partition">Chapter 4: Preparing the Build Partition</a></li>
+                        <li><a href="#toolchain">Chapter 5: Building the Cross-Compilation Toolchain</a></li>
+                        <li><a href="#temp-system">Chapter 6: Building the Temporary System</a></li>
+                        <li><a href="#chroot">Chapter 7: Entering Chroot Environment</a></li>
+                        <li><a href="#final-system">Chapter 8: Building the Final System</a></li>
+                        <li><a href="#kernel">Chapter 9: Configuring and Building the Kernel</a></li>
+                        <li><a href="#bootloader">Chapter 10: Installing the Bootloader</a></li>
+                        <li><a href="#final-config">Chapter 11: Final System Configuration</a></li>
+                        <li><a href="#first-boot">Chapter 12: First Boot and Testing</a></li>
+                    </ul>
+                </div>
+
+                <div class="info-box">
+                    <strong>💡 Pro Tip:</strong> Bookmark this page! You'll be referring back to it frequently during the build process. Each chapter builds upon the previous one, so don't skip ahead!
+                </div>
+            </div>
+        </section>
+
+        <section id="requirements" aria-labelledby="requirements-heading">
+            <div class="chapter-title">Chapter 1: Requirements & Preparation</div>
+            <h2 class="section-title" id="requirements-heading">What You'll Need</h2>
+            <div class="section-content">
+                <div class="step-counter">Step 1.1: Hardware Requirements</div>
+                <p><strong>Minimum System Requirements:</strong></p>
+                <ul>
+                    <li><strong>CPU:</strong> Any x86_64 processor (Intel/AMD 64-bit)</li>
+                    <li><strong>RAM:</strong> 4GB minimum, 8GB+ recommended</li>
+                    <li><strong>Storage:</strong> 20GB free space minimum, 50GB+ recommended</li>
+                    <li><strong>Time:</strong> 6-20 hours depending on hardware</li>
+                </ul>
+
+                <div class="step-counter">Step 1.2: Host System Requirements</div>
+                <p>You need a working Linux system to build LFS. The following distributions work well as host systems:</p>
+                <ul>
+                    <li>Ubuntu 20.04+ / Debian 11+</li>
+                    <li>Fedora 35+ / CentOS Stream 9+</li>
+                    <li>Arch Linux (current)</li>
+                    <li>openSUSE Leap 15.4+</li>
+                </ul>
+
+                <div class="warning-box">
+                    <strong>⚠️ Important:</strong> Do NOT attempt LFS on Windows Subsystem for Linux (WSL) or in a container. You need a real Linux system with full hardware access!
+                </div>
+
+                <div class="step-counter">Step 1.3: Required Host System Packages</div>
+                <p>Install these packages on your host system before starting:</p>
+
+                <p><strong>For Ubuntu/Debian:</strong></p>
+                <div class="code-block">sudo apt update
+sudo apt install -y build-essential bison flex texinfo gawk m4 \
+    libncurses5-dev libssl-dev bc kmod cpio python3 python3-pip \
+    rsync wget curl git vim nano</div>
+
+                <p><strong>For Fedora/CentOS:</strong></p>
+                <div class="code-block">sudo dnf groupinstall -y "Development Tools"
+sudo dnf install -y bison flex texinfo gawk m4 ncurses-devel \
+    openssl-devel bc kmod cpio python3 python3-pip rsync wget \
+    curl git vim nano</div>
+
+                <p><strong>For Arch Linux:</strong></p>
+                <div class="code-block">sudo pacman -S base-devel bison flex texinfo gawk m4 \
+    ncurses openssl bc kmod cpio python python-pip rsync wget \
+    curl git vim nano</div>
+
+                <div class="step-counter">Step 1.4: Version Check Script</div>
+                <p>Run this script to verify your host system has the required tool versions:</p>
+                <div class="code-block">#!/bin/bash
+# version-check.sh - LFS Host System Requirements Checker
+
+export LC_ALL=C
+bash --version | head -n1 | cut -d" " -f2-4
+MYSH=$(readlink -f /bin/sh)
+echo "/bin/sh -> $MYSH"
+echo $MYSH | grep -q bash || echo "ERROR: /bin/sh does not point to bash"
+unset MYSH
+
+echo -n "Binutils: "; ld --version | head -n1 | cut -d" " -f3-
+bison --version | head -n1
+
+if [ -h /usr/bin/yacc ]; then
+  echo "/usr/bin/yacc -> `readlink -f /usr/bin/yacc`";
+elif [ -x /usr/bin/yacc ]; then
+  echo yacc is `/usr/bin/yacc --version | head -n1`
+else
+  echo "yacc not found"
+fi
+
+echo -n "Coreutils: "; chown --version | head -n1 | cut -d")" -f2
+diff --version | head -n1
+find --version | head -n1
+gawk --version | head -n1
+
+if [ -h /usr/bin/awk ]; then
+  echo "/usr/bin/awk -> `readlink -f /usr/bin/awk`";
+elif [ -x /usr/bin/awk ]; then
+  echo awk is `/usr/bin/awk --version | head -n1`
+else
+  echo "awk not found"
+fi
+
+gcc --version | head -n1
+g++ --version | head -n1
+grep --version | head -n1
+gzip --version | head -n1
+cat > version-check.c << "EOF"
+#include <stdio.h>
+int main()
+{
+    printf("Compilation successful\n");
+    return 0;
+}
+EOF
+gcc -o version-check version-check.c
+if [ -x version-check ]; then
+    echo "gcc compilation OK";
+else
+    echo "gcc compilation failed";
+fi
+rm -f version-check.c version-check
+
+m4 --version | head -n1
+make --version | head -n1
+patch --version | head -n1
+echo Perl `perl -V:version`
+python3 --version
+sed --version | head -n1
+tar --version | head -n1
+makeinfo --version | head -n1  # texinfo version
+xz --version | head -n1
+
+echo 'int main(){}' > dummy.c && g++ -o dummy dummy.c
+if [ -x dummy ]
+  then echo "g++ compilation OK";
+  else echo "g++ compilation failed"; fi
+rm -f dummy.c dummy</div>
+
+                <p>Save this as <code>version-check.sh</code>, make it executable, and run it:</p>
+                <div class="code-block">chmod +x version-check.sh
+./version-check.sh</div>
+
+                <div class="info-box">
+                    <strong>Expected Output:</strong> All tools should show version numbers. If any tool is missing or too old, install/update it before proceeding.
+                </div>
+            </div>
+        </section>
+
+        <section id="host-system" aria-labelledby="host-system-heading">
+            <div class="chapter-title">Chapter 2: Preparing the Host System</div>
+            <h2 class="section-title" id="host-system-heading">Setting Up Your Build Environment</h2>
+            <div class="section-content">
+                <div class="step-counter">Step 2.1: Create the LFS User</div>
+                <p>For security and isolation, we'll create a dedicated user for building LFS:</p>
+                <div class="code-block">sudo groupadd lfs
+sudo useradd -s /bin/bash -g lfs -m -k /dev/null lfs
+sudo passwd lfs</div>
+
+                <p>Grant the lfs user sudo privileges:</p>
+                <div class="code-block">sudo usermod -aG sudo lfs</div>
+
+                <div class="step-counter">Step 2.2: Set Up Environment Variables</div>
+                <p>Switch to the lfs user and set up the build environment:</p>
+                <div class="code-block">su - lfs</div>
+
+                <p>Create the .bashrc file for the lfs user:</p>
+                <div class="code-block">cat > ~/.bashrc << "EOF"
+set +h
+umask 022
+LFS=/mnt/lfs
+LC_ALL=POSIX
+LFS_TGT=$(uname -m)-lfs-linux-gnu
+PATH=/usr/bin
+if [ ! -L /bin ]; then PATH=/bin:$PATH; fi
+PATH=$LFS/tools/bin:$PATH
+CONFIG_SITE=$LFS/usr/share/config.site
+export LFS LC_ALL LFS_TGT PATH CONFIG_SITE
+EOF</div>
+
+                <div class="info-box">
+                    <strong>Environment Variables Explained:</strong><br>
+                    • <code>LFS</code>: Mount point for the LFS partition<br>
+                    • <code>LFS_TGT</code>: Target triplet for cross-compilation<br>
+                    • <code>PATH</code>: Ensures we use the right tools<br>
+                    • <code>set +h</code>: Disables bash hash function
+                </div>
+
+                <p>Source the new environment:</p>
+                <div class="code-block">source ~/.bashrc
+echo $LFS</div>
+
+                <div class="step-counter">Step 2.3: Create Directory Structure</div>
+                <p>Create the basic directory structure for LFS:</p>
+                <div class="code-block">sudo mkdir -pv $LFS
+sudo chown -v lfs $LFS
+mkdir -pv $LFS/{etc,var} $LFS/usr/{bin,lib,sbin}
+
+for i in bin lib sbin; do
+  ln -sv usr/$i $LFS/$i
+done
+
+case $(uname -m) in
+  x86_64) mkdir -pv $LFS/lib64 ;;
+esac
+
+mkdir -pv $LFS/tools</div>
+
+                <div class="warning-box">
+                    <strong>⚠️ Critical:</strong> The $LFS variable must be set correctly! Double-check with <code>echo $LFS</code> - it should show <code>/mnt/lfs</code>
+                </div>
+            </div>
+        </section>
+
+        <section id="packages" aria-labelledby="packages-heading">
+            <div class="chapter-title">Chapter 3: Downloading Source Packages</div>
+            <h2 class="section-title" id="packages-heading">Getting the Source Code</h2>
+            <div class="section-content">
+                <div class="step-counter">Step 3.1: Create Sources Directory</div>
+                <div class="code-block">mkdir -pv $LFS/sources
+chmod -v a+wt $LFS/sources</div>
+
+                <div class="step-counter">Step 3.2: Download Package List</div>
+                <p>Create a wget list file with all required packages:</p>
+                <div class="code-block">cat > $LFS/sources/wget-list << "EOF"
+https://download.savannah.gnu.org/releases/acl/acl-2.3.1.tar.xz
+https://download.savannah.gnu.org/releases/attr/attr-2.5.1.tar.gz
+https://ftp.gnu.org/gnu/autoconf/autoconf-2.71.tar.xz
+https://ftp.gnu.org/gnu/automake/automake-1.16.5.tar.xz
+https://ftp.gnu.org/gnu/bash/bash-5.2.15.tar.gz
+https://github.com/gavinhoward/bc/releases/download/6.0.1/bc-6.0.1.tar.xz
+https://ftp.gnu.org/gnu/binutils/binutils-2.39.tar.xz
+https://ftp.gnu.org/gnu/bison/bison-3.8.2.tar.xz
+https://www.sourceware.org/pub/bzip2/bzip2-1.0.8.tar.gz
+https://github.com/libcheck/check/releases/download/0.15.2/check-0.15.2.tar.gz
+https://ftp.gnu.org/gnu/coreutils/coreutils-9.1.tar.xz
+https://ftp.gnu.org/gnu/dejagnu/dejagnu-1.6.3.tar.gz
+https://ftp.gnu.org/gnu/diffutils/diffutils-3.8.tar.xz
+https://downloads.sourceforge.net/project/e2fsprogs/e2fsprogs/v1.46.5/e2fsprogs-1.46.5.tar.gz
+https://sourceware.org/ftp/elfutils/0.187/elfutils-0.187.tar.bz2
+https://prdownloads.sourceforge.net/expat/expat-2.4.8.tar.xz
+https://prdownloads.sourceforge.net/expect/expect5.45.4.tar.gz
+https://astron.com/pub/file/file-5.42.tar.gz
+https://ftp.gnu.org/gnu/findutils/findutils-4.9.0.tar.xz
+https://github.com/westes/flex/releases/download/v2.6.4/flex-2.6.4.tar.gz
+https://ftp.gnu.org/gnu/gawk/gawk-5.1.1.tar.xz
+https://ftp.gnu.org/gnu/gcc/gcc-12.2.0/gcc-12.2.0.tar.xz
+https://ftp.gnu.org/gnu/gdbm/gdbm-1.23.tar.gz
+https://ftp.gnu.org/gnu/gettext/gettext-0.21.tar.xz
+https://ftp.gnu.org/gnu/glibc/glibc-2.36.tar.xz
+https://ftp.gnu.org/gnu/gmp/gmp-6.2.1.tar.xz
+https://ftp.gnu.org/gnu/gperf/gperf-3.1.tar.gz
+https://ftp.gnu.org/gnu/grep/grep-3.7.tar.xz
+https://ftp.gnu.org/gnu/groff/groff-1.22.4.tar.gz
+https://ftp.gnu.org/gnu/grub/grub-2.06.tar.xz
+https://ftp.gnu.org/gnu/gzip/gzip-1.12.tar.xz
+https://github.com/Mic92/iana-etc/releases/download/20220812/iana-etc-20220812.tar.gz
+https://ftp.gnu.org/gnu/inetutils/inetutils-2.3.tar.xz
+https://launchpad.net/intltool/trunk/0.51.0/+download/intltool-0.51.0.tar.gz
+https://www.kernel.org/pub/linux/utils/net/iproute2/iproute2-5.19.0.tar.xz
+https://files.pythonhosted.org/packages/source/J/Jinja2/Jinja2-3.1.2.tar.gz
+https://www.kernel.org/pub/linux/utils/kbd/kbd-2.5.1.tar.xz
+https://www.kernel.org/pub/linux/utils/kernel/kmod/kmod-30.tar.xz
+https://www.greenwoodsoftware.com/less/less-590.tar.gz
+https://www.kernel.org/pub/linux/libs/security/linux-pam/library/Linux-PAM-1.5.2.tar.xz
+https://github.com/libffi/libffi/releases/download/v3.4.2/libffi-3.4.2.tar.gz
+https://download.savannah.gnu.org/releases/libpipeline/libpipeline-1.5.6.tar.gz
+https://ftp.gnu.org/gnu/libtool/libtool-2.4.7.tar.xz
+https://www.kernel.org/pub/linux/kernel/v5.x/linux-5.19.2.tar.xz
+https://ftp.gnu.org/gnu/m4/m4-1.4.19.tar.xz
+https://ftp.gnu.org/gnu/make/make-4.3.tar.gz
+https://download.savannah.gnu.org/releases/man-db/man-db-2.10.2.tar.xz
+https://www.kernel.org/pub/linux/docs/man-pages/man-pages-5.13.tar.xz
+https://github.com/mesonbuild/meson/releases/download/0.63.1/meson-0.63.1.tar.gz
+https://ftp.gnu.org/gnu/mpc/mpc-1.2.1.tar.gz
+https://ftp.gnu.org/gnu/mpfr/mpfr-4.1.0.tar.xz
+https://invisible-mirror.net/archives/ncurses/ncurses-6.3.tar.gz
+https://github.com/ninja-build/ninja/archive/v1.11.0/ninja-1.11.0.tar.gz
+https://www.openssl.org/source/openssl-3.0.5.tar.gz
+https://ftp.gnu.org/gnu/patch/patch-2.7.6.tar.xz
+https://www.cpan.org/src/5.0/perl-5.36.0.tar.xz
+https://distfiles.gentoo.org/distfiles/pkgconf-1.8.0.tar.xz
+https://sourceforge.net/projects/procps-ng/files/Production/procps-ng-4.0.0.tar.xz
+https://sourceforge.net/projects/psmisc/files/psmisc/psmisc-23.5.tar.xz
+https://www.python.org/ftp/python/3.10.6/Python-3.10.6.tar.xz
+https://ftp.gnu.org/gnu/readline/readline-8.1.2.tar.gz
+https://ftp.gnu.org/gnu/sed/sed-4.8.tar.xz
+https://github.com/shadow-maint/shadow/releases/download/4.12.2/shadow-4.12.2.tar.xz
+https://www.infodrom.org/projects/sysklogd/download/sysklogd-1.5.1.tar.gz
+https://github.com/systemd/systemd/archive/v251/systemd-251.tar.gz
+https://ftp.gnu.org/gnu/tar/tar-1.34.tar.xz
+https://sourceforge.net/projects/tcl/files/Tcl/8.6.12/tcl8.6.12-src.tar.gz
+https://ftp.gnu.org/gnu/texinfo/texinfo-6.8.tar.xz
+https://www.iana.org/time-zones/repository/releases/tzdata2022c.tar.gz
+https://www.kernel.org/pub/linux/utils/util-linux/v2.38/util-linux-2.38.1.tar.xz
+https://cpan.metacpan.org/authors/id/T/TO/TODDR/XML-Parser-2.46.tar.gz
+https://tukaani.org/xz/xz-5.2.6.tar.xz
+https://zlib.net/zlib-1.2.12.tar.gz
+https://github.com/facebook/zstd/releases/download/v1.5.2/zstd-1.5.2.tar.gz
+EOF</div>
+
+                <div class="step-counter">Step 3.3: Download All Packages</div>
+                <div class="code-block">cd $LFS/sources
+wget --input-file=wget-list --continue --directory-prefix=$LFS/sources</div>
+
+                <div class="info-box">
+                    <strong>💡 Download Tip:</strong> This will take a while! The total download is about 500MB. Consider using a download manager or running this overnight.
+                </div>
+
+                <div class="step-counter">Step 3.4: Verify Downloads (Optional but Recommended)</div>
+                <p>Create and run a simple verification script:</p>
+                <div class="code-block">cd $LFS/sources
+ls -la | wc -l
+echo "Downloaded $(ls -1 | wc -l) files"
+du -sh .</div>
+
+                <p>You should see approximately 50+ source packages totaling around 500MB.</p>
+            </div>
+        </section>
+
+        <section id="partition" aria-labelledby="partition-heading">
+            <div class="chapter-title">Chapter 4: Preparing the Build Partition</div>
+            <h2 class="section-title" id="partition-heading">Setting Up Storage</h2>
+            <div class="section-content">
+                <div class="warning-box">
+                    <strong>⚠️ DANGER ZONE:</strong> The following commands can destroy data! Make sure you're working on the correct partition and have backups!
+                </div>
+
+                <div class="step-counter">Step 4.1: Create a New Partition</div>
+                <p>You need at least 20GB of free space. You can either:</p>
+                <ul>
+                    <li><strong>Option A:</strong> Use an existing empty partition</li>
+                    <li><strong>Option B:</strong> Create a new partition with fdisk/parted</li>
+                    <li><strong>Option C:</strong> Use a loop device with a file</li>
+                </ul>
+
+                <p><strong>Option C (Safest - Using a file):</strong></p>
+                <div class="code-block"># Create a 30GB file
+sudo dd if=/dev/zero of=/home/lfs-build.img bs=1G count=30
+
+# Create a loop device
+sudo losetup /dev/loop0 /home/lfs-build.img
+
+# Create filesystem
+sudo mkfs.ext4 /dev/loop0
+
+# Set the LFS partition variable
+export LFS_PARTITION=/dev/loop0</div>
+
+                <p><strong>Option A/B (Using real partition):</strong></p>
+                <div class="code-block"># List available partitions
+lsblk
+
+# Format the partition (REPLACE /dev/sdXY with your partition!)
+sudo mkfs.ext4 /dev/sdXY
+
+# Set the LFS partition variable
+export LFS_PARTITION=/dev/sdXY</div>
+
+                <div class="step-counter">Step 4.2: Mount the LFS Partition</div>
+                <div class="code-block">sudo mkdir -pv /mnt/lfs
+sudo mount -v -t ext4 $LFS_PARTITION /mnt/lfs
+sudo chown -v lfs /mnt/lfs</div>
+
+                <div class="step-counter">Step 4.3: Make Mount Persistent</div>
+                <p>Add to /etc/fstab so the partition mounts automatically:</p>
+                <div class="code-block">echo "$LFS_PARTITION /mnt/lfs ext4 defaults 1 1" | sudo tee -a /etc/fstab</div>
+
+                <div class="info-box">
+                    <strong>Verification:</strong> Run <code>df -h /mnt/lfs</code> to confirm the partition is mounted and has enough space.
+                </div>
+            </div>
+        </section>
+
+        <section id="toolchain" aria-labelledby="toolchain-heading">
+            <div class="chapter-title">Chapter 5: Building the Cross-Compilation Toolchain</div>
+            <h2 class="section-title" id="toolchain-heading">The Heart of LFS</h2>
+            <div class="section-content">
+                <p>This is where the real magic happens! We'll build a cross-compilation toolchain that can compile programs for our target LFS system.</p>
+
+                <div class="info-box">
+                    <strong>What's a Cross-Compilation Toolchain?</strong><br>
+                    It's a set of tools (compiler, linker, assembler) that run on your host system but produce binaries for a different target system (our LFS system).
+                </div>
+
+                <div class="step-counter">Step 5.1: Build Binutils (Pass 1)</div>
+                <p>Switch to the lfs user and start building:</p>
+                <div class="code-block">su - lfs
+cd $LFS/sources
+tar -xf binutils-2.39.tar.xz
+cd binutils-2.39
+
+mkdir -v build
+cd build
+
+../configure --prefix=$LFS/tools \
+             --with-sysroot=$LFS \
+             --target=$LFS_TGT   \
+             --disable-nls       \
+             --enable-gprofng=no \
+             --disable-werror
+
+make
+
+make install</div>
+
+                <div class="step-counter">Step 5.2: Build GCC (Pass 1)</div>
+                <div class="code-block">cd $LFS/sources
+tar -xf gcc-12.2.0.tar.xz
+cd gcc-12.2.0
+
+tar -xf ../mpfr-4.1.0.tar.xz
+mv -v mpfr-4.1.0 mpfr
+tar -xf ../gmp-6.2.1.tar.xz
+mv -v gmp-6.2.1 gmp
+tar -xf ../mpc-1.2.1.tar.gz
+mv -v mpc-1.2.1 mpc
+
+case $(uname -m) in
+  x86_64)
+    sed -e '/m64=/s/lib64/lib/' \
+        -i.orig gcc/config/i386/t-linux64
+ ;;
+esac
+
+mkdir -v build
+cd build
+
+../configure                  \
+    --target=$LFS_TGT         \
+    --prefix=$LFS/tools       \
+    --with-glibc-version=2.36 \
+    --with-sysroot=$LFS       \
+    --with-newlib             \
+    --without-headers         \
+    --enable-default-pie      \
+    --enable-default-ssp      \
+    --disable-nls             \
+    --disable-shared          \
+    --disable-multilib        \
+    --disable-threads         \
+    --disable-libatomic       \
+    --disable-libgomp         \
+    --disable-libquadmath     \
+    --disable-libssp          \
+    --disable-libvtv          \
+    --disable-libstdcxx       \
+    --enable-languages=c,c++
+
+make
+
+make install
+
+cd ..
+cat gcc/limitx.h gcc/glimits.h gcc/limity.h > \
+  `dirname $($LFS_TGT-gcc -print-libgcc-file-name)`/install-tools/include/limits.h</div>
+
+                <div class="warning-box">
+                    <strong>⚠️ Time Warning:</strong> GCC compilation can take 1-4 hours depending on your hardware! This is normal. Go make some pancakes! 🥞
+                </div>
+
+                <div class="step-counter">Step 5.3: Build Linux API Headers</div>
+                <div class="code-block">cd $LFS/sources
+tar -xf linux-5.19.2.tar.xz
+cd linux-5.19.2
+
+make mrproper
+
+make headers
+find usr/include -type f ! -name '*.h' -delete
+cp -rv usr/include $LFS/usr</div>
+
+                <div class="step-counter">Step 5.4: Build Glibc</div>
+                <div class="code-block">cd $LFS/sources
+tar -xf glibc-2.36.tar.xz
+cd glibc-2.36
+
+case $(uname -m) in
+    i?86)   ln -sfv ld-linux.so.2 $LFS/lib/ld-lsb.so.3
+    ;;
+    x86_64) ln -sfv ../lib/ld-linux-x86-64.so.2 $LFS/lib64
+            ln -sfv ../lib/ld-linux-x86-64.so.2 $LFS/lib64/ld-lsb-x86-64.so.3
+    ;;
+esac
+
+patch -Np1 -i ../glibc-2.36-fhs-1.patch
+
+mkdir -v build
+cd build
+
+echo "rootsbindir=/usr/sbin" > configparms
+
+../configure                             \
+      --prefix=/usr                      \
+      --host=$LFS_TGT                    \
+      --build=$(../scripts/config.guess) \
+      --enable-kernel=3.2                \
+      --with-headers=$LFS/usr/include    \
+      libc_cv_slibdir=/usr/lib
+
+make
+
+make DESTDIR=$LFS install
+
+sed '/RTLDLIST=/s@/usr@@g' -i $LFS/usr/bin/ldd
+
+echo 'int main(){}' | $LFS_TGT-gcc -xc -
+readelf -l a.out | grep ld-linux
+
+rm -v a.out</div>
+
+                <div class="info-box">
+                    <strong>Success Check:</strong> The last command should show something like:<br>
+                    <code>[Requesting program interpreter: /lib64/ld-linux-x86-64.so.2]</code>
+                </div>
+            </div>
+        </section>
+
+        <section id="temp-system" aria-labelledby="temp-system-heading">
+            <div class="chapter-title">Chapter 6: Building the Temporary System</div>
+            <h2 class="section-title" id="temp-system-heading">Essential Tools</h2>
+            <div class="section-content">
+                <p>Now we'll build essential tools needed for the final system. This creates a minimal but functional environment.</p>
+
+                <div class="step-counter">Step 6.1: Build Libstdc++ (from GCC)</div>
+                <div class="code-block">cd $LFS/sources
+cd gcc-12.2.0
+
+mkdir -v build-libstdc++
+cd build-libstdc++
+
+../libstdc++-v3/configure           \
+    --host=$LFS_TGT                 \
+    --build=$(../config.guess)      \
+    --prefix=/usr                   \
+    --disable-multilib              \
+    --disable-nls                   \
+    --disable-libstdcxx-pch         \
+    --with-gxx-include-dir=/tools/$LFS_TGT/include/c++/12.2.0
+
+make
+
+make DESTDIR=$LFS install
+
+rm -v $LFS/usr/lib/lib{stdc++,stdc++fs,supc++}.la</div>
+
+                <div class="step-counter">Step 6.2: Build M4</div>
+                <div class="code-block">cd $LFS/sources
+tar -xf m4-1.4.19.tar.xz
+cd m4-1.4.19
+
+./configure --prefix=/usr   \
+            --host=$LFS_TGT \
+            --build=$(build-aux/config.guess)
+
+make
+
+make DESTDIR=$LFS install</div>
+
+                <div class="step-counter">Step 6.3: Build Ncurses</div>
+                <div class="code-block">cd $LFS/sources
+tar -xf ncurses-6.3.tar.gz
+cd ncurses-6.3
+
+sed -i s/mawk// configure
+
+mkdir build
+pushd build
+  ../configure
+  make -C include
+  make -C progs tic
+popd
+
+./configure --prefix=/usr                \
+            --host=$LFS_TGT              \
+            --build=$(./config.guess)    \
+            --mandir=/usr/share/man      \
+            --with-manpage-format=normal \
+            --with-shared                \
+            --without-normal             \
+            --with-cxx-shared            \
+            --without-debug              \
+            --without-ada                \
+            --disable-stripping          \
+            --enable-widec
+
+make
+
+make DESTDIR=$LFS TIC_PATH=$(pwd)/build/progs/tic install
+echo "INPUT(-lncursesw)" > $LFS/usr/lib/libncurses.so</div>
+
+                <div class="step-counter">Step 6.4: Build Bash</div>
+                <div class="code-block">cd $LFS/sources
+tar -xf bash-5.2.15.tar.gz
+cd bash-5.2.15
+
+./configure --prefix=/usr                      \
+            --build=$(sh support/config.guess) \
+            --host=$LFS_TGT                     \
+            --without-bash-malloc
+
+make
+
+make DESTDIR=$LFS install
+
+ln -sv bash $LFS/bin/sh</div>
+
+                <div class="step-counter">Step 6.5: Build Coreutils</div>
+                <div class="code-block">cd $LFS/sources
+tar -xf coreutils-9.1.tar.xz
+cd coreutils-9.1
+
+./configure --prefix=/usr                     \
+            --host=$LFS_TGT                   \
+            --build=$(build-aux/config.guess) \
+            --enable-install-program=hostname \
+            --enable-no-install-program=kill,uptime
+
+make
+
+make DESTDIR=$LFS install
+
+mv -v $LFS/usr/bin/chroot              $LFS/usr/sbin
+mkdir -pv $LFS/usr/share/man/man8
+mv -v $LFS/usr/share/man/man1/chroot.1 $LFS/usr/share/man/man8/chroot.8
+sed -i 's/"1"/"8"/'                    $LFS/usr/share/man/man8/chroot.8</div>
+
+                <div class="info-box">
+                    <strong>Progress Check:</strong> You now have basic tools like bash, ls, cp, mv, etc. in your LFS system! We're getting closer to a bootable system.
+                </div>
+
+                <div class="step-counter">Step 6.6: Build Additional Essential Tools</div>
+                <p>Continue building these tools in order (abbreviated for space):</p>
+                <ul>
+                    <li>Diffutils</li>
+                    <li>File</li>
+                    <li>Findutils</li>
+                    <li>Gawk</li>
+                    <li>Grep</li>
+                    <li>Gzip</li>
+                    <li>Make</li>
+                    <li>Patch</li>
+                    <li>Sed</li>
+                    <li>Tar</li>
+                    <li>Xz</li>
+                </ul>
+
+                <div class="code-block"># Example for one more tool - Findutils
+cd $LFS/sources
+tar -xf findutils-4.9.0.tar.xz
+cd findutils-4.9.0
+
+./configure --prefix=/usr                   \
+            --localstatedir=/var/lib/locate \
+            --host=$LFS_TGT                 \
+            --build=$(build-aux/config.guess)
+
+make
+
+make DESTDIR=$LFS install</div>
+
+                <div class="warning-box">
+                    <strong>⚠️ Time Investment:</strong> Building all temporary tools takes 2-6 hours. Each package follows a similar pattern: extract, configure, make, install. Take breaks!
+                </div>
+            </div>
+        </section>
+
+        <section id="chroot" aria-labelledby="chroot-heading">
+            <div class="chapter-title">Chapter 7: Entering Chroot Environment</div>
+            <h2 class="section-title" id="chroot-heading">The Point of No Return</h2>
+            <div class="section-content">
+                <p>Now we enter the chroot environment where we'll build the final system. This isolates us completely from the host system.</p>
+
+                <div class="step-counter">Step 7.1: Change Ownership</div>
+                <div class="code-block">sudo chown -R root:root $LFS/{usr,lib,var,etc,bin,sbin,tools}
+case $(uname -m) in
+  x86_64) sudo chown -R root:root $LFS/lib64 ;;
+esac</div>
+
+                <div class="step-counter">Step 7.2: Prepare Virtual Kernel File Systems</div>
+                <div class="code-block">sudo mkdir -pv $LFS/{dev,proc,sys,run}
+
+sudo mount -v --bind /dev $LFS/dev
+
+sudo mount -v --bind /dev/pts $LFS/dev/pts
+sudo mount -vt proc proc $LFS/proc
+sudo mount -vt sysfs sysfs $LFS/sys
+sudo mount -vt tmpfs tmpfs $LFS/run
+
+if [ -h $LFS/dev/shm ]; then
+  sudo mkdir -pv $LFS/$(readlink $LFS/dev/shm)
+else
+  sudo mount -t tmpfs -o nosuid,nodev tmpfs $LFS/dev/shm
+fi</div>
+
+                <div class="step-counter">Step 7.3: Enter Chroot Environment</div>
+                <div class="code-block">sudo chroot "$LFS" /usr/bin/env -i   \
+    HOME=/root                  \
+    TERM="$TERM"                \
+    PS1='(lfs chroot) \u:\w\$ ' \
+    PATH=/usr/bin:/usr/sbin     \
+    /bin/bash --login</div>
+
+                <div class="info-box">
+                    <strong>🎉 Congratulations!</strong> You're now inside your LFS system! The prompt should show <code>(lfs chroot)</code>. Everything you do now happens in your custom Linux system.
+                </div>
+
+                <div class="step-counter">Step 7.4: Create Essential Directories</div>
+                <div class="code-block">mkdir -pv /{boot,home,mnt,opt,srv}
+
+mkdir -pv /etc/{opt,sysconfig}
+mkdir -pv /lib/firmware
+mkdir -pv /media/{floppy,cdrom}
+mkdir -pv /usr/{,local/}{include,src}
+mkdir -pv /usr/local/{bin,lib,sbin}
+mkdir -pv /usr/{,local/}share/{color,dict,doc,info,locale,man}
+mkdir -pv /usr/{,local/}share/{misc,terminfo,zoneinfo}
+mkdir -pv /usr/{,local/}share/man/man{1..8}
+mkdir -pv /var/{cache,local,log,mail,opt,spool}
+mkdir -pv /var/lib/{color,misc,locate}
+
+ln -sfv /run /var/run
+ln -sfv /run/lock /var/lock
+
+install -dv -m 0750 /root
+install -dv -m 1777 /tmp /var/tmp</div>
+
+                <div class="step-counter">Step 7.5: Create Essential Files</div>
+                <div class="code-block">ln -sv /proc/self/mounts /etc/mtab
+
+cat > /etc/hosts << EOF
+127.0.0.1  localhost $(hostname)
+::1        localhost
+EOF
+
+cat > /etc/passwd << "EOF"
+root:x:0:0:root:/root:/bin/bash
+bin:x:1:1:bin:/dev/null:/usr/bin/false
+daemon:x:6:6:Daemon User:/dev/null:/usr/bin/false
+messagebus:x:18:18:D-Bus Message Daemon User:/run/dbus:/usr/bin/false
+uuidd:x:80:80:UUID Generation Daemon User:/dev/null:/usr/bin/false
+nobody:x:65534:65534:Unprivileged User:/dev/null:/usr/bin/false
+EOF
+
+cat > /etc/group << "EOF"
+root:x:0:
+bin:x:1:daemon
+sys:x:2:
+kmem:x:3:
+tape:x:4:
+tty:x:5:
+daemon:x:6:
+floppy:x:7:
+disk:x:8:
+lp:x:9:
+dialout:x:10:
+audio:x:11:
+video:x:12:
+utmp:x:13:
+usb:x:14:
+cdrom:x:15:
+adm:x:16:
+messagebus:x:18:
+input:x:24:
+mail:x:34:
+kvm:x:61:
+uuidd:x:80:
+wheel:x:97:
+users:x:999:
+nogroup:x:65534:
+EOF
+
+echo "tester:x:101:101::/home/tester:/bin/bash" >> /etc/passwd
+echo "tester:x:101:" >> /etc/group
+install -o tester -d /home/tester
+
+exec /usr/bin/bash --login</div>
+
+                <div class="warning-box">
+                    <strong>⚠️ Important:</strong> From this point forward, you're working entirely within the chroot environment. If you exit, you'll need to re-mount the virtual filesystems and re-enter chroot.
+                </div>
+            </div>
+        </section>
+
+        <section id="final-system" aria-labelledby="final-system-heading">
+            <div class="chapter-title">Chapter 8: Building the Final System</div>
+            <h2 class="section-title" id="final-system-heading">The Real Deal</h2>
+            <div class="section-content">
+                <p>Now we rebuild everything properly for the final system. This creates the permanent, production-ready versions of all tools.</p>
+
+                <div class="step-counter">Step 8.1: Build Gettext</div>
+                <div class="code-block">cd /sources
+tar -xf gettext-0.21.tar.xz
+cd gettext-0.21
+
+./configure --disable-shared
+
+make
+
+cp -v gettext-tools/src/{msgfmt,msgmerge,xgettext} /usr/bin</div>
+
+                <div class="step-counter">Step 8.2: Build Bison</div>
+                <div class="code-block">cd /sources
+tar -xf bison-3.8.2.tar.xz
+cd bison-3.8.2
+
+./configure --prefix=/usr --docdir=/usr/share/doc/bison-3.8.2
+
+make
+make install</div>
+
+                <div class="step-counter">Step 8.3: Build Perl</div>
+                <div class="code-block">cd /sources
+tar -xf perl-5.36.0.tar.xz
+cd perl-5.36.0
+
+export BUILD_ZLIB=False
+export BUILD_BZIP2=0
+
+sh Configure -des                                         \
+             -Dprefix=/usr                                \
+             -Dvendorprefix=/usr                          \
+             -Dprivlib=/usr/lib/perl5/5.36/core_perl     \
+             -Darchlib=/usr/lib/perl5/5.36/core_perl     \
+             -Dsitelib=/usr/lib/perl5/5.36/site_perl     \
+             -Dsitearch=/usr/lib/perl5/5.36/site_perl    \
+             -Dvendorlib=/usr/lib/perl5/5.36/vendor_perl \
+             -Dvendorarch=/usr/lib/perl5/5.36/vendor_perl
+
+make
+make install
+unset BUILD_ZLIB BUILD_BZIP2</div>
+
+                <div class="step-counter">Step 8.4: Build Python</div>
+                <div class="code-block">cd /sources
+tar -xf Python-3.10.6.tar.xz
+cd Python-3.10.6
+
+./configure --prefix=/usr        \
+            --enable-shared       \
+            --with-system-expat   \
+            --with-system-ffi     \
+            --enable-optimizations
+
+make
+make install</div>
+
+                <div class="step-counter">Step 8.5: Build Texinfo</div>
+                <div class="code-block">cd /sources
+tar -xf texinfo-6.8.tar.xz
+cd texinfo-6.8
+
+./configure --prefix=/usr
+
+make
+make install</div>
+
+                <div class="step-counter">Step 8.6: Build Util-linux</div>
+                <div class="code-block">cd /sources
+tar -xf util-linux-2.38.1.tar.xz
+cd util-linux-2.38.1
+
+mkdir -pv /var/lib/hwclock
+
+./configure ADJTIME_PATH=/var/lib/hwclock/adjtime    \
+            --libdir=/usr/lib    \
+            --docdir=/usr/share/doc/util-linux-2.38.1 \
+            --disable-chfn-chsh  \
+            --disable-login      \
+            --disable-nologin    \
+            --disable-su         \
+            --disable-setpriv    \
+            --disable-runuser    \
+            --disable-pylibmount \
+            --disable-static     \
+            --without-python     \
+            --without-systemd    \
+            --without-systemdsystemunitdir
+
+make
+make install</div>
+
+                <div class="info-box">
+                    <strong>Final System Progress:</strong> You're now building the production versions of all tools. This process involves rebuilding GCC, Glibc, and all other packages with proper optimization and configuration.
+                </div>
+
+                <div class="warning-box">
+                    <strong>⚠️ Marathon Alert:</strong> Building the final system takes 4-12 hours! This includes rebuilding GCC (again), Glibc (again), and 60+ other packages. Plan accordingly!
+                </div>
+
+                <div class="step-counter">Step 8.7: Clean Up and Strip Debugging Symbols</div>
+                <div class="code-block">rm -rf /tmp/*
+
+find /usr/lib /usr/libexec -name \*.la -delete
+
+find /usr -depth -name $(uname -m)-lfs-linux-gnu\* | xargs rm -rf
+
+userdel -r tester</div>
+            </div>
+        </section>
+
+        <section id="kernel" aria-labelledby="kernel-heading">
+            <div class="chapter-title">Chapter 9: Configuring and Building the Kernel</div>
+            <h2 class="section-title" id="kernel-heading">The Heart of the System</h2>
+            <div class="section-content">
+                <p>Time to build the Linux kernel! This is the core of your operating system.</p>
+
+                <div class="step-counter">Step 9.1: Extract and Prepare Kernel Source</div>
+                <div class="code-block">cd /sources
+tar -xf linux-5.19.2.tar.xz
+cd linux-5.19.2
+
+make mrproper</div>
+
+                <div class="step-counter">Step 9.2: Configure the Kernel</div>
+                <div class="code-block"># Option 1: Use a default configuration
+make defconfig
+
+# Option 2: Interactive configuration (recommended)
+make menuconfig</div>
+
+                <div class="info-box">
+                    <strong>Kernel Configuration Tips:</strong><br>
+                    • Enable your filesystem (ext4, etc.)<br>
+                    • Enable your network card driver<br>
+                    • Enable your graphics driver<br>
+                    • Enable USB support<br>
+                    • Enable sound if needed
+                </div>
+
+                <div class="step-counter">Step 9.3: Compile the Kernel</div>
+                <div class="code-block">make
+
+# Install kernel modules
+make modules_install
+
+# Copy kernel to /boot
+cp -iv arch/x86/boot/bzImage /boot/vmlinuz-5.19.2-lfs-12.0
+cp -iv System.map /boot/System.map-5.19.2
+cp -iv .config /boot/config-5.19.2</div>
+
+                <div class="step-counter">Step 9.4: Install Kernel Documentation</div>
+                <div class="code-block">install -d /usr/share/doc/linux-5.19.2
+cp -r Documentation/* /usr/share/doc/linux-5.19.2</div>
+
+                <div class="warning-box">
+                    <strong>⚠️ Kernel Compilation Time:</strong> This can take 30 minutes to 3 hours depending on your configuration and hardware. The kernel has thousands of files to compile!
+                </div>
+            </div>
+        </section>
+
+        <section id="bootloader" aria-labelledby="bootloader-heading">
+            <div class="chapter-title">Chapter 10: Installing the Bootloader</div>
+            <h2 class="section-title" id="bootloader-heading">Making It Bootable</h2>
+            <div class="section-content">
+                <p>Install GRUB bootloader so your system can actually boot!</p>
+
+                <div class="step-counter">Step 10.1: Build and Install GRUB</div>
+                <div class="code-block">cd /sources
+tar -xf grub-2.06.tar.xz
+cd grub-2.06
+
+./configure --prefix=/usr          \
+            --sysconfdir=/etc       \
+            --disable-efiemu        \
+            --disable-werror
+
+make
+make install
+mv -v /etc/bash_completion.d/grub /usr/share/bash-completion/completions</div>
+
+                <div class="step-counter">Step 10.2: Install GRUB to Boot Device</div>
+                <div class="warning-box">
+                    <strong>⚠️ CRITICAL:</strong> Replace /dev/sdX with your actual boot device! This command can make your system unbootable if wrong!
+                </div>
+
+                <div class="code-block"># Install GRUB to MBR (replace /dev/sdX with your disk!)
+grub-install /dev/sdX
+
+# Generate GRUB configuration
+grub-mkconfig -o /boot/grub/grub.cfg</div>
+
+                <div class="step-counter">Step 10.3: Create GRUB Configuration</div>
+                <div class="code-block">cat > /boot/grub/grub.cfg << "EOF"
+# Begin /boot/grub/grub.cfg
+set default=0
+set timeout=5
+
+insmod ext2
+set root=(hd0,2)
+
+menuentry "GNU/Linux, Linux 5.19.2-lfs-12.0" {
+        linux   /boot/vmlinuz-5.19.2-lfs-12.0 root=/dev/sda2 ro
+}
+EOF</div>
+
+                <div class="info-box">
+                    <strong>Configuration Notes:</strong><br>
+                    • Replace <code>(hd0,2)</code> with your boot partition<br>
+                    • Replace <code>/dev/sda2</code> with your root partition<br>
+                    • Adjust kernel version if different
+                </div>
+            </div>
+        </section>
+
+        <section id="final-config" aria-labelledby="final-config-heading">
+            <div class="chapter-title">Chapter 11: Final System Configuration</div>
+            <h2 class="section-title" id="final-config-heading">The Finishing Touches</h2>
+            <div class="section-content">
+                <div class="step-counter">Step 11.1: Create /etc/fstab</div>
+                <div class="code-block">cat > /etc/fstab << "EOF"
+# Begin /etc/fstab
+
+# file system  mount-point  type     options             dump  fsck
+#                                                              order
+
+/dev/sda2      /            ext4     defaults            1     1
+/dev/sda1      /boot        ext4     defaults            1     2
+proc           /proc        proc     nosuid,noexec,nodev 0     0
+sysfs          /sys         sysfs    nosuid,noexec,nodev 0     0
+devpts         /dev/pts     devpts   gid=5,mode=620      0     0
+tmpfs          /run         tmpfs    defaults            0     0
+devtmpfs       /dev         devtmpfs mode=0755,nosuid    0     0
+
+# End /etc/fstab
+EOF</div>
+
+                <div class="step-counter">Step 11.2: Configure Network</div>
+                <div class="code-block"># Set hostname
+echo "lfs-system" > /etc/hostname
+
+# Configure network interface
+cat > /etc/systemd/network/10-eth-dhcp.network << "EOF"
+[Match]
+Name=eth0
+
+[Network]
+DHCP=ipv4
+
+[DHCP]
+UseDomains=true
+EOF</div>
+
+                <div class="step-counter">Step 11.3: Configure Locale</div>
+                <div class="code-block">cat > /etc/locale.conf << "EOF"
+LANG=en_US.UTF-8
+EOF
+
+# Generate locales
+localedef -i en_US -f UTF-8 en_US.UTF-8</div>
+
+                <div class="step-counter">Step 11.4: Configure Console</div>
+                <div class="code-block">cat > /etc/inputrc << "EOF"
+# Begin /etc/inputrc
+
+set horizontal-scroll-mode Off
+set meta-flag On
+set input-meta On
+set convert-meta Off
+set output-meta On
+set bell-style none
+
+"\eOd": backward-word
+"\eOc": forward-word
+"\e[1~": beginning-of-line
+"\e[4~": end-of-line
+"\e[5~": beginning-of-history
+"\e[6~": end-of-history
+"\e[3~": delete-char
+"\e[2~": quoted-insert
+
+# End /etc/inputrc
+EOF</div>
+
+                <div class="step-counter">Step 11.5: Set Root Password</div>
+                <div class="code-block">passwd root</div>
+
+                <div class="info-box">
+                    <strong>Security Note:</strong> Choose a strong password! This will be the root password for your LFS system.
+                </div>
+            </div>
+        </section>
+
+        <section id="first-boot" aria-labelledby="first-boot-heading">
+            <div class="chapter-title">Chapter 12: First Boot and Testing</div>
+            <h2 class="section-title" id="first-boot-heading">The Moment of Truth!</h2>
+            <div class="section-content">
+                <div class="step-counter">Step 12.1: Exit Chroot and Unmount</div>
+                <div class="code-block"># Exit chroot environment
+logout
+
+# Unmount virtual filesystems
+sudo umount -v $LFS/dev/pts
+sudo umount -v $LFS/dev
+sudo umount -v $LFS/run
+sudo umount -v $LFS/proc
+sudo umount -v $LFS/sys
+
+# Unmount LFS partition
+sudo umount -v $LFS</div>
+
+                <div class="step-counter">Step 12.2: Reboot and Test</div>
+                <div class="warning-box">
+                    <strong>⚠️ Point of No Return:</strong> Make sure you have a backup plan! Keep a rescue USB handy in case something goes wrong.
+                </div>
+
+                <div class="code-block"># Reboot the system
+sudo reboot</div>
+
+                <div class="step-counter">Step 12.3: First Boot Checklist</div>
+                <p>When your system boots, verify these things work:</p>
+                <ul>
+                    <li>✅ System boots to login prompt</li>
+                    <li>✅ Root login works</li>
+                    <li>✅ Basic commands work (ls, ps, df, etc.)</li>
+                    <li>✅ Network connectivity</li>
+                    <li>✅ File system is writable</li>
+                </ul>
+
+                <div class="code-block"># Test basic functionality
+uname -a
+cat /proc/version
+df -h
+free -h
+lscpu
+ip addr show</div>
+
+                <div class="step-counter">Step 12.4: Troubleshooting Common Issues</div>
+                <p><strong>System won't boot:</strong></p>
+                <ul>
+                    <li>Check GRUB configuration</li>
+                    <li>Verify kernel was compiled correctly</li>
+                    <li>Check /etc/fstab entries</li>
+                </ul>
+
+                <p><strong>Kernel panic:</strong></p>
+                <ul>
+                    <li>Missing filesystem driver in kernel</li>
+                    <li>Wrong root device in GRUB config</li>
+                    <li>Corrupted kernel image</li>
+                </ul>
+
+                <p><strong>No network:</strong></p>
+                <ul>
+                    <li>Missing network driver in kernel</li>
+                    <li>Incorrect network configuration</li>
+                    <li>systemd-networkd not enabled</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="conclusion" aria-labelledby="conclusion-heading">
+            <div class="chapter-title">🎉 Congratulations! You Built Linux From Scratch!</div>
+            <h2 class="section-title" id="conclusion-heading">What You've Accomplished</h2>
+            <div class="section-content">
+                <div class="info-box">
+                    <strong>🏆 Achievement Unlocked:</strong> Linux From Scratch Master!<br>
+                    You've just built a complete Linux system from source code. That's seriously impressive!
+                </div>
+
+                <p><strong>What you've learned:</strong></p>
+                <ul>
+                    <li>🔧 How Linux systems are constructed from the ground up</li>
+                    <li>⚙️ Cross-compilation and toolchain building</li>
+                    <li>🐧 Kernel configuration and compilation</li>
+                    <li>🚀 Bootloader installation and configuration</li>
+                    <li>📦 Package management without package managers</li>
+                    <li>🔐 System security and user management</li>
+                    <li>🌐 Network configuration</li>
+                    <li>💾 File system management</li>
+                </ul>
+
+                <div class="step-counter">Next Steps</div>
+                <p><strong>Now that you have a basic LFS system, you can:</strong></p>
+                <ul>
+                    <li>Install a desktop environment (GNOME, KDE, XFCE)</li>
+                    <li>Add more software packages</li>
+                    <li>Create your own package management system</li>
+                    <li>Optimize for specific hardware</li>
+                    <li>Build Beyond Linux From Scratch (BLFS)</li>
+                    <li>Share your experience with the community!</li>
+                </ul>
+
+                <div class="warning-box">
+                    <strong>🎯 Pro Tip:</strong> Document everything you did! LFS is a learning experience, and you'll want to remember the process for next time or to help others.
+                </div>
+
+                <p><strong>Resources for continued learning:</strong></p>
+                <ul>
+                    <li><a href="https://www.linuxfromscratch.org/" target="_blank">Official LFS Website</a></li>
+                    <li><a href="https://www.linuxfromscratch.org/blfs/" target="_blank">Beyond Linux From Scratch (BLFS)</a></li>
+                    <li><a href="https://www.kernel.org/" target="_blank">Linux Kernel Archives</a></li>
+                    <li><a href="https://www.gnu.org/" target="_blank">GNU Project</a></li>
+                </ul>
+
+                <div class="retro-popup" style="margin-top: 20px; padding: 15px; background: linear-gradient(to bottom, #008000 0%, #004000 100%); border: 2px outset #00aa00; color: #fff; font-size: 14px; text-align: center;">
+                    <strong>🥞 You deserve pancakes after this marathon!</strong><br>
+                    Building LFS is one of the most challenging and rewarding experiences in Linux. You've joined an elite group of people who truly understand how operating systems work. Well done! :3
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer role="contentinfo">
+        <div class="footer-window">
+            <div class="section-titlebar">
+                <h3 class="section-title">Footer Info</h3>
+            </div>
+            <div class="section-content">
+                <p>&copy; 2025 ilikepancakes.ink | Linux From Scratch Tutorial</p>
+                <p class="footer-note">
+                    This tutorial is based on Linux From Scratch version 12.0. Always check the official LFS website for the latest version and updates.
+                </p>
+                <div class="visitor-counter">
+                    <p><strong>Tutorial Completions:</strong></p>
+                    <img src="https://count.getloli.com/@lfs-tutorial?name=lfs-tutorial&theme=booru-lewd&padding=7&offset=0&align=top&scale=1&pixelated=1&darkmode=auto"
+                         alt="Tutorial completion counter"
+                         loading="lazy"
+                         style="image-rendering: pixelated; image-rendering: -moz-crisp-edges; image-rendering: crisp-edges;">
+                </div>
+                <div class="retro-links">
+                    <a href="../index.html" class="retro-link">Home</a> |
+                    <a href="../qna.html" class="retro-link">Q&A</a> |
+                    <a href="archlinux.html" class="retro-link">Arch Linux</a> |
+                    <a href="mailto:webmaster@ilikepancakes.ink" class="retro-link">Webmaster</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Giant Return to Web Button at bottom -->
+    <div class="giant-button-container">
+        <a href="../index.html" class="giant-return-button">
+            return to pancake land :3
+        </a>
+    </div>
+
+    <!-- Load JavaScript with proper error handling -->
+    <script src="../script.js" defer onerror="console.warn('Script failed to load')"></script>
+
+    <!-- Structured data for SEO -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "Linux From Scratch Tutorial - Complete Guide",
+        "description": "Comprehensive tutorial for building a Linux system from source code",
+        "author": {
+            "@type": "Person",
+            "name": "ilikepancakes.ink"
+        },
+        "datePublished": "2025-01-23",
+        "dateModified": "2025-01-23",
+        "publisher": {
+            "@type": "Organization",
+            "name": "ilikepancakes.ink"
+        }
+    }
+    </script>
+</body>
+</html>
