@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arch Linux Installation Guide</title>
+    <!-- Tailwind CSS CDN for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles to ensure full height and font */
+        html, body {
+            height: 100%;
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+        }
+        body {
+            background-color: #000;
+            color: #fff;
+            padding: 20px;
+        }
+        /* Ensure content is scrollable */
+        .content-container {
+            max-height: none;
+            overflow-y: visible;
+        }
+        /* Code blocks */
+        .code-block {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 4px;
+            padding: 12px;
+            margin: 12px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+            color: #00ff00;
+        }
+        /* Warning boxes */
+        .warning-box {
+            background: #2d1b00;
+            border: 1px solid #ff6600;
+            border-radius: 4px;
+            padding: 12px;
+            margin: 12px 0;
+            color: #ffaa44;
+        }
+        /* Info boxes */
+        .info-box {
+            background: #001a2d;
+            border: 1px solid #0066ff;
+            border-radius: 4px;
+            padding: 12px;
+            margin: 12px 0;
+            color: #44aaff;
+        }
+        /* Step headers */
+        .step-header {
+            background: #1a1a1a;
+            border-left: 4px solid #00ff00;
+            padding: 8px 12px;
+            margin: 16px 0 8px 0;
+            font-weight: bold;
+            color: #00ff00;
+        }
+        /* Navigation */
+        .nav-section {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 4px;
+            padding: 16px;
+            margin: 20px 0;
+        }
+        .nav-section h3 {
+            color: #00ff00;
+            margin-top: 0;
+        }
+        .nav-section ul {
+            list-style: none;
+            padding: 0;
+        }
+        .nav-section li {
+            margin: 8px 0;
+        }
+        .nav-section a {
+            color: #44aaff;
+            text-decoration: none;
+        }
+        .nav-section a:hover {
+            color: #66ccff;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body class="bg-black text-white">
+    <div class="content-container w-full max-w-4xl mx-auto">
+        <h1 class="text-4xl md:text-5xl font-bold text-center mb-6 md:mb-8">Arch Linux Installation Guide</h1>
+        <p class="text-center text-lg mb-8 text-gray-300">Complete installation guide for GNOME, Hyprland, and KDE Plasma environments</p>
+
+        <!-- Navigation -->
+        <div class="nav-section">
+            <h3>Quick Navigation</h3>
+            <ul class="grid grid-cols-1 md:grid-cols-3 gap-2">
+                <li><a href="#preparation">1. Preparation</a></li>
+                <li><a href="#base-install">2. Base Installation</a></li>
+                <li><a href="#system-config">3. System Configuration</a></li>
+                <li><a href="#gnome">4. GNOME Setup</a></li>
+                <li><a href="#hyprland">5. Hyprland Setup</a></li>
+                <li><a href="#kde">6. KDE Plasma Setup</a></li>
+                <li><a href="#post-install">7. Post-Installation</a></li>
+                <li><a href="#troubleshooting">8. Troubleshooting</a></li>
+                <li><a href="#resources">9. Resources</a></li>
+            </ul>
+        </div>
+
+        <!-- Introduction -->
+        <div class="mb-8">
+            <p class="text-lg leading-relaxed mb-4">
+                This comprehensive guide will walk you through installing Arch Linux from scratch with your choice of desktop environment. 
+                Arch Linux provides unparalleled control and customization, allowing you to build exactly the system you want.
+            </p>
+            
+            <div class="warning-box">
+                <strong>⚠️ Important:</strong> This guide assumes basic Linux knowledge. Arch installation requires attention to detail. 
+                Always have the official Arch Wiki open as a reference: <a href="https://wiki.archlinux.org/" class="text-blue-400">wiki.archlinux.org</a>
+            </div>
+        </div>
+
+        <!-- Section 1: Preparation -->
+        <section id="preparation" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6 text-green-400">1. Preparation</h2>
+            
+            <div class="step-header">Step 1.1: Download Arch Linux ISO</div>
+            <p class="mb-4">Download the latest Arch Linux ISO from the official website:</p>
+            <div class="code-block">
+# Download from: https://archlinux.org/download/
+# Verify the signature for security
+gpg --keyserver-options auto-key-retrieve --verify archlinux-*.iso.sig
+            </div>
+
+            <div class="step-header">Step 1.2: Create Bootable USB</div>
+            <p class="mb-4">Create a bootable USB drive (replace /dev/sdX with your USB device):</p>
+            <div class="code-block">
+# Linux/macOS
+sudo dd bs=4M if=archlinux-*.iso of=/dev/sdX conv=fsync oflag=direct status=progress
+
+# Windows (use Rufus or similar tool)
+            </div>
+
+            <div class="step-header">Step 1.3: Boot from USB</div>
+            <p class="mb-4">Boot from the USB drive and you'll be greeted with the Arch Linux live environment.</p>
+            
+            <div class="info-box">
+                <strong>💡 Tip:</strong> If you have UEFI, ensure Secure Boot is disabled in BIOS settings.
+            </div>
+        </section>
+
+        <!-- Section 2: Base Installation -->
+        <section id="base-install" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6 text-green-400">2. Base Installation</h2>
+            
+            <div class="step-header">Step 2.1: Verify Boot Mode</div>
+            <div class="code-block">
+# Check if booted in UEFI mode
+ls /sys/firmware/efi/efivars
+# If directory exists, you're in UEFI mode
+            </div>
+
+            <div class="step-header">Step 2.2: Connect to Internet</div>
+            <div class="code-block">
+# For Ethernet (usually automatic)
+ping archlinux.org
+
+# For WiFi
+iwctl
+[iwd]# device list
+[iwd]# station wlan0 scan
+[iwd]# station wlan0 get-networks
+[iwd]# station wlan0 connect "Your-WiFi-Name"
+[iwd]# exit
+            </div>
+
+            <div class="step-header">Step 2.3: Update System Clock</div>
+            <div class="code-block">
+timedatectl set-ntp true
+timedatectl status
+            </div>
+
+            <div class="step-header">Step 2.4: Partition Disks</div>
+            <p class="mb-4">List available disks and create partitions:</p>
+            <div class="code-block">
+# List disks
+lsblk
+
+# Use cfdisk for easier partitioning
+cfdisk /dev/sda
+
+# Recommended partition scheme for UEFI:
+# /dev/sda1: 512M EFI System (Type: EFI System)
+# /dev/sda2: 4G+ Linux swap (Type: Linux swap)
+# /dev/sda3: Remaining space Linux filesystem (Type: Linux filesystem)
+            </div>
+
+            <div class="step-header">Step 2.5: Format Partitions</div>
+            <div class="code-block">
+# Format EFI partition
+mkfs.fat -F32 /dev/sda1
+
+# Format root partition
+mkfs.ext4 /dev/sda3
+
+# Setup swap
+mkswap /dev/sda2
+swapon /dev/sda2
+            </div>
+
+            <div class="step-header">Step 2.6: Mount Partitions</div>
+            <div class="code-block">
+# Mount root partition
+mount /dev/sda3 /mnt
+
+# Create and mount EFI directory
+mkdir /mnt/boot
+mount /dev/sda1 /mnt/boot
+            </div>
+        </section>
+
+        <!-- Section 3: System Configuration -->
+        <section id="system-config" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6 text-green-400">3. System Configuration</h2>
+            
+            <div class="step-header">Step 3.1: Install Base System</div>
+            <div class="code-block">
+# Install base packages
+pacstrap /mnt base linux linux-firmware
+
+# Install additional essential packages
+pacstrap /mnt base-devel vim nano networkmanager grub efibootmgr
+            </div>
+
+            <div class="step-header">Step 3.2: Generate fstab</div>
+            <div class="code-block">
+genfstab -U /mnt >> /mnt/etc/fstab
+# Verify the file
+cat /mnt/etc/fstab
+            </div>
+
+            <div class="step-header">Step 3.3: Chroot into System</div>
+            <div class="code-block">
+arch-chroot /mnt
+            </div>
+
+            <div class="step-header">Step 3.4: Configure System</div>
+            <div class="code-block">
+# Set timezone
+ln -sf /usr/share/zoneinfo/Region/City /etc/localtime
+hwclock --systohc
+
+# Configure locale
+echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
+locale-gen
+echo "LANG=en_US.UTF-8" > /etc/locale.conf
+
+# Set hostname
+echo "your-hostname" > /etc/hostname
+
+# Configure hosts file
+cat >> /etc/hosts << EOF
+127.0.0.1   localhost
+::1         localhost
+127.0.1.1   your-hostname.localdomain your-hostname
+EOF
+            </div>
+
+            <div class="step-header">Step 3.5: Set Root Password</div>
+            <div class="code-block">
+passwd
+            </div>
+
+            <div class="step-header">Step 3.6: Install and Configure Bootloader</div>
+            <div class="code-block">
+# Install GRUB
+grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
+
+# Generate GRUB configuration
+grub-mkconfig -o /boot/grub/grub.cfg
+            </div>
+
+            <div class="step-header">Step 3.7: Enable NetworkManager</div>
+            <div class="code-block">
+systemctl enable NetworkManager
+            </div>
+        </section>
+
+        <!-- Section 4: GNOME Setup -->
+        <section id="gnome" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6 text-green-400">4. GNOME Desktop Environment</h2>
+
+            <div class="step-header">Step 4.1: Create User Account</div>
+            <div class="code-block">
+# Create user and add to groups
+useradd -m -G wheel,audio,video,optical,storage -s /bin/bash username
+
+# Set user password
+passwd username
+
+# Enable sudo for wheel group
+EDITOR=nano visudo
+# Uncomment: %wheel ALL=(ALL) ALL
+            </div>
+
+            <div class="step-header">Step 4.2: Install GNOME</div>
+            <div class="code-block">
+# Install GNOME desktop environment
+pacman -S gnome gnome-extra
+
+# Install display manager
+pacman -S gdm
+
+# Enable GDM
+systemctl enable gdm
+            </div>
+
+            <div class="step-header">Step 4.3: Install Additional Software</div>
+            <div class="code-block">
+# Install useful applications
+pacman -S firefox chromium code git wget curl htop neofetch
+
+# Install multimedia codecs
+pacman -S gst-plugins-good gst-plugins-bad gst-plugins-ugly gst-libav
+
+# Install fonts
+pacman -S ttf-dejavu ttf-liberation noto-fonts
+            </div>
+
+            <div class="info-box">
+                <strong>GNOME Features:</strong> GNOME provides a modern, clean desktop experience with excellent Wayland support,
+                integrated applications, and smooth animations. Perfect for users who want a polished, user-friendly environment.
+            </div>
+        </section>
+
+        <!-- Section 5: Hyprland Setup -->
+        <section id="hyprland" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6 text-green-400">5. Hyprland Wayland Compositor</h2>
+
+            <div class="step-header">Step 5.1: Create User Account (if not done)</div>
+            <div class="code-block">
+# Create user and add to groups
+useradd -m -G wheel,audio,video,optical,storage -s /bin/bash username
+
+# Set user password
+passwd username
+
+# Enable sudo for wheel group
+EDITOR=nano visudo
+# Uncomment: %wheel ALL=(ALL) ALL
+            </div>
+
+            <div class="step-header">Step 5.2: Install Hyprland and Dependencies</div>
+            <div class="code-block">
+# Install Hyprland from official repos
+pacman -S hyprland
+
+# Install essential Wayland tools
+pacman -S waybar wofi dunst alacritty
+
+# Install additional tools
+pacman -S grim slurp wl-clipboard xdg-desktop-portal-hyprland
+
+# Install file manager and basic apps
+pacman -S thunar firefox
+            </div>
+
+            <div class="step-header">Step 5.3: Configure Hyprland</div>
+            <div class="code-block">
+# Exit chroot and reboot first
+exit
+umount -R /mnt
+reboot
+
+# After reboot, login as your user and create config
+mkdir -p ~/.config/hypr
+cp /usr/share/hyprland/hyprland.conf ~/.config/hypr/
+
+# Basic Hyprland configuration
+cat > ~/.config/hypr/hyprland.conf << 'EOF'
+# Monitor configuration
+monitor=,preferred,auto,auto
+
+# Input configuration
+input {
+    kb_layout = us
+    follow_mouse = 1
+    touchpad {
+        natural_scroll = no
+    }
+    sensitivity = 0
+}
+
+# General configuration
+general {
+    gaps_in = 5
+    gaps_out = 20
+    border_size = 2
+    col.active_border = rgba(33ccffee) rgba(00ff99ee) 45deg
+    col.inactive_border = rgba(595959aa)
+    layout = dwindle
+}
+
+# Decoration
+decoration {
+    rounding = 10
+    blur {
+        enabled = true
+        size = 3
+        passes = 1
+    }
+    drop_shadow = yes
+    shadow_range = 4
+    shadow_render_power = 3
+    col.shadow = rgba(1a1a1aee)
+}
+
+# Animations
+animations {
+    enabled = yes
+    bezier = myBezier, 0.05, 0.9, 0.1, 1.05
+    animation = windows, 1, 7, myBezier
+    animation = windowsOut, 1, 7, default, popin 80%
+    animation = border, 1, 10, default
+    animation = borderangle, 1, 8, default
+    animation = fade, 1, 7, default
+    animation = workspaces, 1, 6, default
+}
+
+# Key bindings
+$mainMod = SUPER
+
+bind = $mainMod, Q, exec, alacritty
+bind = $mainMod, C, killactive,
+bind = $mainMod, M, exit,
+bind = $mainMod, E, exec, thunar
+bind = $mainMod, V, togglefloating,
+bind = $mainMod, R, exec, wofi --show drun
+bind = $mainMod, P, pseudo,
+bind = $mainMod, J, togglesplit,
+
+# Move focus
+bind = $mainMod, left, movefocus, l
+bind = $mainMod, right, movefocus, r
+bind = $mainMod, up, movefocus, u
+bind = $mainMod, down, movefocus, d
+
+# Switch workspaces
+bind = $mainMod, 1, workspace, 1
+bind = $mainMod, 2, workspace, 2
+bind = $mainMod, 3, workspace, 3
+bind = $mainMod, 4, workspace, 4
+bind = $mainMod, 5, workspace, 5
+
+# Move active window to workspace
+bind = $mainMod SHIFT, 1, movetoworkspace, 1
+bind = $mainMod SHIFT, 2, movetoworkspace, 2
+bind = $mainMod SHIFT, 3, movetoworkspace, 3
+bind = $mainMod SHIFT, 4, movetoworkspace, 4
+bind = $mainMod SHIFT, 5, movetoworkspace, 5
+
+# Autostart
+exec-once = waybar
+exec-once = dunst
+EOF
+            </div>
+
+            <div class="step-header">Step 5.4: Configure Waybar</div>
+            <div class="code-block">
+# Create waybar config
+mkdir -p ~/.config/waybar
+
+cat > ~/.config/waybar/config << 'EOF'
+{
+    "layer": "top",
+    "position": "top",
+    "height": 30,
+    "modules-left": ["hyprland/workspaces"],
+    "modules-center": ["clock"],
+    "modules-right": ["network", "pulseaudio", "battery"],
+
+    "hyprland/workspaces": {
+        "disable-scroll": true,
+        "all-outputs": true,
+        "format": "{icon}",
+        "format-icons": {
+            "1": "",
+            "2": "",
+            "3": "",
+            "4": "",
+            "5": "",
+            "urgent": "",
+            "focused": "",
+            "default": ""
+        }
+    },
+
+    "clock": {
+        "format": "{:%Y-%m-%d %H:%M}",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
+    },
+
+    "network": {
+        "format-wifi": " {signalStrength}%",
+        "format-ethernet": " Connected",
+        "format-disconnected": "⚠ Disconnected"
+    },
+
+    "pulseaudio": {
+        "format": "{icon} {volume}%",
+        "format-muted": " Muted",
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", "", ""]
+        }
+    },
+
+    "battery": {
+        "format": "{icon} {capacity}%",
+        "format-icons": ["", "", "", "", ""]
+    }
+}
+EOF
+
+# Create waybar style
+cat > ~/.config/waybar/style.css << 'EOF'
+* {
+    border: none;
+    border-radius: 0;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 13px;
+    min-height: 0;
+}
+
+window#waybar {
+    background-color: rgba(43, 48, 59, 0.8);
+    border-bottom: 3px solid rgba(100, 114, 125, 0.5);
+    color: #ffffff;
+    transition-property: background-color;
+    transition-duration: .5s;
+}
+
+#workspaces button {
+    padding: 0 5px;
+    background-color: transparent;
+    color: #ffffff;
+    border-bottom: 3px solid transparent;
+}
+
+#workspaces button:hover {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+#workspaces button.focused {
+    background-color: #64727D;
+    border-bottom: 3px solid #ffffff;
+}
+
+#clock, #battery, #cpu, #memory, #network, #pulseaudio {
+    padding: 0 10px;
+    margin: 0 4px;
+    color: #ffffff;
+}
+EOF
+            </div>
+
+            <div class="info-box">
+                <strong>Hyprland Features:</strong> Hyprland is a dynamic tiling Wayland compositor with beautiful animations,
+                extensive customization options, and excellent performance. Perfect for power users who want a modern,
+                efficient workflow with eye-candy.
+            </div>
+        </section>
+
+        <!-- Section 6: KDE Plasma Setup -->
+        <section id="kde" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6 text-green-400">6. KDE Plasma Desktop Environment</h2>
+
+            <div class="step-header">Step 6.1: Create User Account (if not done)</div>
+            <div class="code-block">
+# Create user and add to groups
+useradd -m -G wheel,audio,video,optical,storage -s /bin/bash username
+
+# Set user password
+passwd username
+
+# Enable sudo for wheel group
+EDITOR=nano visudo
+# Uncomment: %wheel ALL=(ALL) ALL
+            </div>
+
+            <div class="step-header">Step 6.2: Install KDE Plasma</div>
+            <div class="code-block">
+# Install KDE Plasma desktop environment
+pacman -S plasma kde-applications
+
+# Install display manager
+pacman -S sddm
+
+# Enable SDDM
+systemctl enable sddm
+
+# Install additional KDE applications (optional)
+pacman -S packagekit-qt5 flatpak
+            </div>
+
+            <div class="step-header">Step 6.3: Install Additional Software</div>
+            <div class="code-block">
+# Install useful applications
+pacman -S firefox chromium code git wget curl htop neofetch
+
+# Install multimedia codecs
+pacman -S gst-plugins-good gst-plugins-bad gst-plugins-ugly gst-libav
+
+# Install fonts
+pacman -S ttf-dejavu ttf-liberation noto-fonts
+
+# Install development tools
+pacman -S docker docker-compose nodejs npm python python-pip
+            </div>
+
+            <div class="step-header">Step 6.4: Configure KDE Plasma</div>
+            <div class="code-block">
+# Exit chroot and reboot first
+exit
+umount -R /mnt
+reboot
+
+# After reboot, login through SDDM
+# KDE Plasma will start automatically
+
+# Optional: Install AUR helper (yay)
+git clone https://aur.archlinux.org/yay.git
+cd yay
+makepkg -si
+cd ..
+rm -rf yay
+
+# Install popular AUR packages
+yay -S visual-studio-code-bin discord spotify
+            </div>
+
+            <div class="info-box">
+                <strong>KDE Plasma Features:</strong> KDE Plasma offers the most customizable desktop experience with extensive
+                theming options, powerful widgets, and a traditional desktop paradigm. Perfect for users who want maximum
+                control over their desktop appearance and behavior.
+            </div>
+        </section>
+
+        <!-- Section 7: Post-Installation -->
+        <section id="post-install" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6 text-green-400">7. Post-Installation Setup</h2>
+
+            <div class="step-header">Step 7.1: System Updates</div>
+            <div class="code-block">
+# Update system
+sudo pacman -Syu
+
+# Enable multilib repository (for 32-bit support)
+sudo nano /etc/pacman.conf
+# Uncomment:
+# [multilib]
+# Include = /etc/pacman.d/mirrorlist
+
+# Update package database
+sudo pacman -Sy
+            </div>
+
+            <div class="step-header">Step 7.2: Install AUR Helper</div>
+            <div class="code-block">
+# Install yay AUR helper
+git clone https://aur.archlinux.org/yay.git
+cd yay
+makepkg -si
+cd ..
+rm -rf yay
+
+# Alternative: Install paru
+git clone https://aur.archlinux.org/paru.git
+cd paru
+makepkg -si
+cd ..
+rm -rf paru
+            </div>
+
+            <div class="step-header">Step 7.3: Graphics Drivers</div>
+            <div class="code-block">
+# For NVIDIA GPUs
+sudo pacman -S nvidia nvidia-utils nvidia-settings
+
+# For AMD GPUs
+sudo pacman -S xf86-video-amdgpu mesa
+
+# For Intel GPUs
+sudo pacman -S xf86-video-intel mesa
+
+# For laptops with hybrid graphics
+sudo pacman -S optimus-manager
+            </div>
+
+            <div class="step-header">Step 7.4: Essential Software</div>
+            <div class="code-block">
+# Development tools
+sudo pacman -S git vim neovim tmux docker docker-compose
+
+# Media and productivity
+sudo pacman -S vlc gimp libreoffice-fresh
+
+# System utilities
+sudo pacman -S htop btop neofetch tree unzip zip
+
+# Fonts and themes
+sudo pacman -S ttf-fira-code ttf-font-awesome
+yay -S ttf-ms-fonts
+            </div>
+
+            <div class="step-header">Step 7.5: Enable Services</div>
+            <div class="code-block">
+# Enable useful services
+sudo systemctl enable bluetooth
+sudo systemctl enable cups  # for printing
+sudo systemctl enable docker
+sudo systemctl enable fstrim.timer  # for SSD maintenance
+
+# Start services immediately
+sudo systemctl start bluetooth
+sudo systemctl start cups
+sudo systemctl start docker
+            </div>
+        </section>
+
+        <!-- Section 8: Troubleshooting -->
+        <section id="troubleshooting" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6 text-green-400">8. Troubleshooting</h2>
+
+            <div class="step-header">Common Issues and Solutions</div>
+
+            <div class="warning-box">
+                <strong>Boot Issues:</strong>
+                <ul class="mt-2 ml-4">
+                    <li>• Check GRUB configuration: <code>sudo grub-mkconfig -o /boot/grub/grub.cfg</code></li>
+                    <li>• Verify fstab entries: <code>cat /etc/fstab</code></li>
+                    <li>• Boot from live USB and arch-chroot to fix issues</li>
+                </ul>
+            </div>
+
+            <div class="warning-box">
+                <strong>Network Issues:</strong>
+                <ul class="mt-2 ml-4">
+                    <li>• Enable NetworkManager: <code>sudo systemctl enable --now NetworkManager</code></li>
+                    <li>• Check network interfaces: <code>ip link show</code></li>
+                    <li>• For WiFi: <code>nmcli device wifi connect "SSID" password "password"</code></li>
+                </ul>
+            </div>
+
+            <div class="warning-box">
+                <strong>Display Issues:</strong>
+                <ul class="mt-2 ml-4">
+                    <li>• Install proper graphics drivers for your GPU</li>
+                    <li>• Check Xorg logs: <code>cat /var/log/Xorg.0.log</code></li>
+                    <li>• For Wayland issues, try X11 session</li>
+                </ul>
+            </div>
+
+            <div class="warning-box">
+                <strong>Audio Issues:</strong>
+                <ul class="mt-2 ml-4">
+                    <li>• Install PulseAudio: <code>sudo pacman -S pulseaudio pulseaudio-alsa</code></li>
+                    <li>• Or install PipeWire: <code>sudo pacman -S pipewire pipewire-pulse</code></li>
+                    <li>• Check audio devices: <code>aplay -l</code></li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Section 9: Resources -->
+        <section id="resources" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6 text-green-400">9. Resources and Next Steps</h2>
+
+            <div class="step-header">Essential Resources</div>
+            <div class="info-box">
+                <strong>Official Documentation:</strong>
+                <ul class="mt-2 ml-4">
+                    <li>• <a href="https://wiki.archlinux.org/" class="text-blue-400">Arch Wiki</a> - The most comprehensive Linux documentation</li>
+                    <li>• <a href="https://archlinux.org/" class="text-blue-400">Arch Linux Official Site</a></li>
+                    <li>• <a href="https://aur.archlinux.org/" class="text-blue-400">Arch User Repository (AUR)</a></li>
+                </ul>
+            </div>
+
+            <div class="step-header">Community and Support</div>
+            <div class="info-box">
+                <strong>Get Help:</strong>
+                <ul class="mt-2 ml-4">
+                    <li>• <a href="https://bbs.archlinux.org/" class="text-blue-400">Arch Linux Forums</a></li>
+                    <li>• <a href="https://www.reddit.com/r/archlinux/" class="text-blue-400">r/archlinux</a> on Reddit</li>
+                    <li>• IRC: #archlinux on Libera.Chat</li>
+                    <li>• <a href="https://discord.gg/archlinux" class="text-blue-400">Arch Linux Discord</a></li>
+                </ul>
+            </div>
+
+            <div class="step-header">Next Steps</div>
+            <div class="code-block">
+# Useful commands to remember
+sudo pacman -Syu          # Update system
+sudo pacman -S package    # Install package
+sudo pacman -R package    # Remove package
+sudo pacman -Ss search    # Search packages
+yay -S aur-package       # Install from AUR
+systemctl status service # Check service status
+journalctl -xe           # View system logs
+            </div>
+
+            <div class="info-box">
+                <strong>🎉 Congratulations!</strong> You've successfully installed Arch Linux with your chosen desktop environment.
+                Remember: the journey doesn't end here. Arch Linux is about continuous learning and customization.
+                Explore the AUR, customize your desktop, and most importantly - have fun with your new system!
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="text-center py-8 border-t border-gray-700 mt-12">
+            <p class="text-gray-400">
+                This guide is based on the official Arch Linux installation guide. Always refer to the
+                <a href="https://wiki.archlinux.org/title/Installation_guide" class="text-blue-400">Arch Wiki</a>
+                for the most up-to-date information.
+            </p>
+            <p class="text-gray-400 mt-2">
+                Created with ❤️ for the Arch Linux community |
+                <a href="../index.html" class="text-blue-400">Back to ilikepancakes.ink</a>
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
