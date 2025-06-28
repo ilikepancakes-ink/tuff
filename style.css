@@ -79,19 +79,44 @@ header {
 }
 
 .window-titlebar {
-    display: none; /* Remove complex window styling */
+    background: linear-gradient(to right, #000080, #1e90ff);
+    padding: 4px 8px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #000;
+    color: #fff;
+    font-family: 'VT323', monospace;
+    text-shadow: 1px 1px #000;
 }
 
 .window-title {
-    display: none;
+    font-weight: bold;
+    font-size: 14px;
 }
 
 .window-controls {
-    display: none;
+    display: flex;
+    gap: 4px;
 }
 
 .window-button {
-    display: none;
+    width: 16px;
+    height: 16px;
+    background: #c0c0c0;
+    border: 2px outset #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.window-button.close {
+    background: #ff6347;
 }
 
 header h1 {

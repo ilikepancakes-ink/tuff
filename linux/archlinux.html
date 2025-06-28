@@ -28,8 +28,18 @@
     </style>
 </head>
 <body class="bg-black text-white">
-    <div class="content-container w-full max-w-2xl p-6 md:p-10 border border-white rounded-lg shadow-lg">
+    <header role="banner">
+        <div class="window-titlebar">
+            <span class="window-title">~/pancakes/ilikepancakes.ink/linux/archlinux.html</span>
+            <div class="window-controls">
+                <div class="window-button">_</div>
+                <div class="window-button">□</div>
+                <div class="window-button close">×</div>
+            </div>
+        </div>
         <h1 class="text-4xl md:text-5xl font-bold text-center mb-6 md:mb-8">Why Arch is the Best</h1>
+    </header>
+    <div class="content-container w-full max-w-2xl p-6 md:p-10 border border-white rounded-lg shadow-lg">
 
         <p class="mb-4 text-center text-lg leading-relaxed">
             Arch Linux adheres rigorously to the "KISS" principle (Keep It Simple, Stupid) by providing a bare-bones `base` system. This means the default installation includes only the essential packages required for a functional Linux environment, devoid of extraneous daemons, desktop environments, or pre-configured services. This minimalist foundation empowers the user with granular control over every aspect of the system's configuration, from kernel parameters and bootloader options (e.g., GRUB, systemd-boot) to display server selection (Xorg, Wayland) and intricate network configurations. This explicit construction process mitigates "dependency hell" and reduces attack surfaces by limiting unnecessary software components.
