@@ -136,3 +136,56 @@ p {
         text-align: center;
     }
 }
+
+pre {
+    background-color: #282c34; /* Dark grey background */
+    color: #abb2bf; /* Light grey text color */
+    padding: 15px;
+    border-radius: 8px;
+    overflow-x: auto; /* Enable horizontal scrolling for long lines */
+    font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; /* Monospace font */
+    font-size: 0.9em;
+    line-height: 1.5;
+}
+
+code {
+    font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+    font-size: 0.9em;
+}
+
+/* Basic syntax highlighting (assuming classes are applied) */
+.token.comment {
+    color: #5c6370; /* Grey for comments */
+}
+
+.token.selector,
+.token.keyword,
+.token.tag {
+    color: #e06c75; /* Reddish for keywords, tags, selectors */
+}
+
+.token.attr-name,
+.token.property,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol {
+    color: #d19a66; /* Orange for attribute names, properties, numbers, etc. */
+}
+
+.token.string,
+.token.url {
+    color: #98c379; /* Green for strings and URLs */
+}
+
+.token.punctuation {
+    color: #abb2bf; /* Light grey for punctuation */
+}
+
+.token.attr-value {
+    color: #98c379; /* Green for attribute values */
+}
+
+.token.function {
+    color: #61afef; /* Blue for functions */
+}
