@@ -80,15 +80,17 @@
             <sub>want me to add your button? email me :3</sub>
             <br>
             <b>while you are here wanna add my button?</b>
-            <pre><code class="html">
-               &lt;a href="https://ilikepancakes.ink"&gt;
+            <div class="code-snippet-container">
+                <button class="copy-button" onclick="copyToClipboard(this)">Copy</button>
+                <pre><code class="html">&lt;a href="https://ilikepancakes.ink"&gt;
                 &lt;img src="https://ilikepancakes.ink/buttons/button1.png" alt="ilikepancakes.ink" width="88" height="31" loading="lazy"&gt;
-               &lt;/a&gt;
-            </code></pre>
+               &lt;/a&gt;</code></pre>
+            </div>
             <b>or in markdown:</b>
-            <pre><code class="markdown">
-               [![ilikepancakes.ink](https://ilikepancakes.ink/buttons/button1.png)](https://ilikepancakes.ink)
-            </code></pre>
+            <div class="code-snippet-container">
+                <button class="copy-button" onclick="copyToClipboard(this)">Copy</button>
+                <pre><code class="markdown">[![ilikepancakes.ink](https://ilikepancakes.ink/buttons/button1.png)](https://ilikepancakes.ink)</code></pre>
+            </div>
         </div>
     </section>
 
@@ -102,5 +104,66 @@
     <div class="arch-button-container">
         <a href="linux/archlinux.html" class="button arch">Arch</a>
     </div>
+
+    <script>
+        function copyToClipboard(button) {
+            // Find the code element within the same container
+            const container = button.parentElement;
+            const codeElement = container.querySelector('code');
+            const textToCopy = codeElement.textContent;
+
+            // Use the modern clipboard API
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    showCopySuccess(button);
+                }).catch(err => {
+                    console.error('Failed to copy text: ', err);
+                    fallbackCopyTextToClipboard(textToCopy, button);
+                });
+            } else {
+                // Fallback for older browsers or non-secure contexts
+                fallbackCopyTextToClipboard(textToCopy, button);
+            }
+        }
+
+        function fallbackCopyTextToClipboard(text, button) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+
+            // Avoid scrolling to bottom
+            textArea.style.top = "0";
+            textArea.style.left = "0";
+            textArea.style.position = "fixed";
+            textArea.style.opacity = "0";
+
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    showCopySuccess(button);
+                } else {
+                    console.error('Fallback: Copying text command was unsuccessful');
+                }
+            } catch (err) {
+                console.error('Fallback: Oops, unable to copy', err);
+            }
+
+            document.body.removeChild(textArea);
+        }
+
+        function showCopySuccess(button) {
+            const originalText = button.textContent;
+            button.textContent = 'Copied!';
+            button.classList.add('copied');
+
+            setTimeout(() => {
+                button.textContent = originalText;
+                button.classList.remove('copied');
+            }, 2000);
+        }
+    </script>
 </body>
 </html>
