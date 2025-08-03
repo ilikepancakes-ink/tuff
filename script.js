@@ -38,7 +38,35 @@ document.addEventListener('DOMContentLoaded', function() {
     setTimeout(() => {
         console.log("tuff");
     }, 5000);
+
+    checkPrideMonth();
 });
+
+function checkPrideMonth() {
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth(); // 0-indexed, so June is 5
+
+    if (currentMonth === 5) { // June
+        console.log("Happy Pride Month! Adding some pride flair to the site.");
+        addPrideFlair();
+    }
+}
+
+function addPrideFlair() {
+    const prideContainer = document.createElement('div');
+    prideContainer.className = 'pride-container';
+
+    const rainbowColors = ['#E40303', '#FF8C00', '#FFED00', '#008026', '#0044FF', '#760088']; // Red, Orange, Yellow, Green, Blue, Violet
+
+    rainbowColors.forEach(color => {
+        const stripe = document.createElement('div');
+        stripe.className = 'pride-stripe';
+        stripe.style.backgroundColor = color;
+        prideContainer.appendChild(stripe);
+    });
+
+    document.body.appendChild(prideContainer);
+}
 
 function startBouncingCircles() {
     const circlesContainer = document.querySelector('.floating-circles');
