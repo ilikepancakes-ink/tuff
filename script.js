@@ -47,7 +47,7 @@ function checkPrideMonth() {
     const currentMonth = currentDate.getMonth(); // 0-indexed, so June is 5
 
     if (currentMonth === 5) { // June
-        console.log("Happy Pride Month! Adding some pride flair to the site.");
+        console.log("Happy Pride Month!");
         addPrideFlair();
     }
 }

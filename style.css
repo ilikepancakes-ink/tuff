@@ -85,6 +85,10 @@ p {
     background: #6364ff;
     color: white;
 }
+.button.about {
+    background: #4a5568;
+    color: white;
+}
 .button.twitter:hover {
     background: #0d8bd9;
     transform: translateY(-2px);
