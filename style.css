@@ -89,6 +89,10 @@ p {
     background: #4a5568;
     color: white;
 }
+.button.matrix {
+    background: #000000;
+    color: white;
+}
 .button.twitter:hover {
     background: #0d8bd9;
     transform: translateY(-2px);
