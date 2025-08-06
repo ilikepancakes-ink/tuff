@@ -77,7 +77,14 @@ p {
     background: #1da1f2;
     color: white;
 }
-
+.button.instagram {
+    background: #C13584;
+    color: white;
+}
+.button.mastodon {
+    background: #6364ff;
+    color: white;
+}
 .button.twitter:hover {
     background: #0d8bd9;
     transform: translateY(-2px);
@@ -250,3 +257,4 @@ code {
     flex-grow: 1;
     width: 100%;
 }
+
