@@ -1,5 +1,4 @@
-# ilikepancakes.ink Production .htaccess Configuration
-# Retro 2009 vibes with modern security! >_<
+
 
 # Enable rewrite engine
 RewriteEngine On
