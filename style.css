@@ -93,6 +93,10 @@ p {
     background: #000000;
     color: white;
 }
+.button.donate {
+    background: #48bb78;
+    color: rgb(255, 241, 178);    
+}
 .button.twitter:hover {
     background: #0d8bd9;
     transform: translateY(-2px);
