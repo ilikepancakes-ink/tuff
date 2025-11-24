@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 6741;
 
 // Función para crear endpoints dinámicos para todos los archivos
 function createFileEndpoints(directory, basePath = '') {
@@ -17,10 +17,12 @@ function createFileEndpoints(directory, basePath = '') {
             const subBasePath = basePath + '/' + item;
             createFileEndpoints(fullPath, subBasePath);
         } else {
-            // Crear endpoint GET para cada archivo
-            const filePath = basePath + '/' + item;
-            app.get(filePath, (req, res) => {
-                console.log(`Serving endpoint: ${filePath}`);
+            // Crear endpoint GET para cada archivo, ocultando la extensión
+            const extensionIndex = item.lastIndexOf('.');
+            const nameWithoutExt = extensionIndex > 0 ? item.slice(0, extensionIndex) : item;
+            const endpointPath = basePath + '/' + nameWithoutExt;
+            app.get(endpointPath, (req, res) => {
+                console.log(`Serving endpoint: ${endpointPath} (${item})`);
                 res.sendFile(fullPath);
             });
         }
@@ -45,10 +47,6 @@ app.use((req, res) => {
 // Iniciar servidor
 app.listen(PORT, () => {
     console.log(`Welcome to ilikepancakes.ink running on port ${PORT}! >_<`);
-    console.log('All files in directory are now accessible as endpoints:');
-    console.log(`- /index.html`);
-    console.log(`- /style.css`);
-    console.log(`- /script.js`);
-    console.log(`- /404.html`);
-    console.log(`- And all other files in directories...`);
+    console.log('to make my life a little easier i made it so it just auto maps and serves all files in the working directory');
+    console.log(`remember A squared + B squared = C squared `);
 });
