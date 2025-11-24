@@ -2,7 +2,64 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const app = express();
+app.set('trust proxy', true); // trust proxy for IP forwarding
 const PORT = process.env.PORT || 6741;
+
+// Load blocked IPs
+let blockedIPs = new Set();
+
+function loadBlockedIPs() {
+  try {
+    if (fs.existsSync('blocklist.txt')) {
+      const content = fs.readFileSync('blocklist.txt', 'utf8');
+      blockedIPs = new Set(content.split('\n').map(ip => ip.trim()).filter(ip => ip));
+    }
+  } catch (err) {
+    console.error('Error loading blocklist:', err);
+  }
+}
+
+loadBlockedIPs();
+
+// IP blocking middleware
+app.use((req, res, next) => {
+  const ip = req.ip;
+  if (blockedIPs.has(ip)) {
+    return res.redirect('/block');
+  }
+  next();
+});
+
+// Specific route for /block to show blocked IP
+app.get('/block', (req, res) => {
+  const ip = req.ip;
+  res.send(`<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blocked - ilikepancakes.ink</title>
+    <meta name="description" content="Access has been blocked">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16">
+
+    <!-- Theme color -->
+    <meta name="theme-color" content="#1a1a1a">
+
+    <link rel="stylesheet" href="style">
+</head>
+<body>
+    <h1>Blocked</h1>
+    <p>Your IP: <strong>${ip}</strong></p>
+    <p>Access to this resource from your IP address has been blocked. If you believe this is an error, please contact the webmaster.</p>
+    <a href="mailto:webmaster@ilikepancakes.ink" class="button">contact webmaster</a>
+    <hr>
+    <p>Error Status: Cloudflare Access Denied "ERR_CONNECTION_REFUSED"</p>
+</body>
+</html>`);
+});
 
 // Función para crear endpoints dinámicos para todos los archivos
 function createFileEndpoints(directory, basePath = '') {
