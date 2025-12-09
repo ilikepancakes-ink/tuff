@@ -97,6 +97,10 @@ p {
     background: #48bb78;
     color: rgb(255, 241, 178);    
 }
+.button.spacehey {
+    background: #60A5FA;
+    color: white
+}
 .button.twitter:hover {
     background: #0d8bd9;
     transform: translateY(-2px);
