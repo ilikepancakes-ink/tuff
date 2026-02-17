@@ -101,6 +101,10 @@ p {
     background: #60A5FA;
     color: white
 }
+.button.osmium {
+    background: #7612b8;
+    color: white;
+}
 .button.twitter:hover {
     background: #0d8bd9;
     transform: translateY(-2px);
