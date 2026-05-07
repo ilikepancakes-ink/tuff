@@ -142,47 +142,17 @@ app.delete('/api/admin/posts/:id', requireAuth, (req, res) => {
   res.json({ success: true });
 });
 
-// --- Static file serving with extension hiding and filtering ---
-const SKIP_EXTENSIONS = new Set(['.js', '.json', '.db', '.env', '.txt']);
-function createFileEndpoints(directory, basePath = '') {
-    const items = fs.readdirSync(directory);
-
-    items.forEach(item => {
-        const fullPath = path.join(directory, item);
-        const stat = fs.statSync(fullPath);
-
-        if (stat.isDirectory()) {
-            const subBasePath = basePath + '/' + item;
-            createFileEndpoints(fullPath, subBasePath);
-        } else {
-            const extensionIndex = item.lastIndexOf('.');
-            const ext = extensionIndex > 0 ? item.slice(extensionIndex) : '';
-            if (SKIP_EXTENSIONS.has(ext)) return;
-
-            const nameWithoutExt = extensionIndex > 0 ? item.slice(0, extensionIndex) : item;
-            const endpointPath = basePath + '/' + nameWithoutExt;
-            app.get(endpointPath, (req, res) => {
-                console.log(`Serving endpoint: ${endpointPath} (${item})`);
-                if (ext === '.html') {
-                    res.type('text/html');
-                } else if (ext === '.css') {
-                    res.type('text/css');
-                } else if (ext === '.js') {
-                    res.type('application/javascript');
-                }
-                res.sendFile(fullPath);
-            });
+// --- Static file serving with extensionless URL support ---
+app.use(express.static(__dirname, {
+    extensions: ['html', 'htm'],
+    index: 'index.html',
+    setHeaders: (res, filePath) => {
+        // Prevent serving sensitive files
+        if (filePath.endsWith('.env') || filePath.endsWith('.db') || filePath.endsWith('.txt') || filePath.endsWith('.json')) {
+            res.status(403).end();
         }
-    });
-}
-
-createFileEndpoints(__dirname);
-
-// Root
-app.get('/', (req, res) => {
-    console.log('Serving root endpoint: /');
-    res.sendFile(path.join(__dirname, 'index.html'));
-});
+    }
+}));
 
 // 404
 app.use((req, res) => {
