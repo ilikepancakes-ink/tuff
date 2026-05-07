@@ -109,6 +109,10 @@ p {
     background: #0d8bd9;
     transform: translateY(-2px);
 }
+.button.blog {
+    background: #D3D3D3f;
+    color: white;
+}
 
 .visitor-counter {
     margin-top: 30px;
