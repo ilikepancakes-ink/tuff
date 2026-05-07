@@ -163,6 +163,13 @@ function createFileEndpoints(directory, basePath = '') {
             const endpointPath = basePath + '/' + nameWithoutExt;
             app.get(endpointPath, (req, res) => {
                 console.log(`Serving endpoint: ${endpointPath} (${item})`);
+                if (ext === '.html') {
+                    res.type('text/html');
+                } else if (ext === '.css') {
+                    res.type('text/css');
+                } else if (ext === '.js') {
+                    res.type('application/javascript');
+                }
                 res.sendFile(fullPath);
             });
         }
