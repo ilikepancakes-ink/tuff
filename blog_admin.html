@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Admin - ilikepancakes.ink</title>
+    <meta name="description" content="Blog administration">
+
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16">
+    <meta name="theme-color" content="#1a1a1a">
+
+    <link rel="stylesheet" href="/style">
+</head>
+<body>
+    <h1><a href="/" style="color: #ffffff; text-decoration: none;">ilikepancakes.ink</a>/blog_admin</h1>
+
+    <!-- Login Form -->
+    <section id="login-form">
+        <h2>Login</h2>
+        <div id="login-error" style="color: #e06c75; display: none; margin-bottom: 10px;"></div>
+        <form id="login" onsubmit="return doLogin(event)">
+            <div style="margin-bottom: 15px;">
+                <label for="username" style="display: block; margin-bottom: 5px; color: #ccc;">Username</label>
+                <input type="text" id="username" name="username" required style="width: 100%; padding: 10px; background: #333; border: 1px solid #555; border-radius: 4px; color: #fff; font-size: 1em; box-sizing: border-box;">
+            </div>
+            <div style="margin-bottom: 15px;">
+                <label for="password" style="display: block; margin-bottom: 5px; color: #ccc;">Password</label>
+                <input type="password" id="password" name="password" required style="width: 100%; padding: 10px; background: #333; border: 1px solid #555; border-radius: 4px; color: #fff; font-size: 1em; box-sizing: border-box;">
+            </div>
+            <button type="submit" class="button email">Login</button>
+        </form>
+    </section>
+
+    <!-- Admin Panel -->
+    <section id="admin-panel" style="display: none;">
+        <h2>Blog Posts</h2>
+        <div style="margin-bottom: 20px;">
+            <button class="button" style="background: #48bb78; color: white; border: none; cursor: pointer;" onclick="showEditor()">+ New Post</button>
+            <button class="button" style="background: #4a5568; color: white; border: none; cursor: pointer;" onclick="doLogout()">Logout</button>
+        </div>
+        <div id="admin-posts-list"></div>
+    </section>
+
+    <!-- Post Editor -->
+    <section id="post-editor" style="display: none;">
+        <h2 id="editor-title">New Post</h2>
+        <form id="editor-form" onsubmit="return savePost(event)">
+            <input type="hidden" id="edit-id" value="">
+            <div style="margin-bottom: 15px;">
+                <label for="edit-title" style="display: block; margin-bottom: 5px; color: #ccc;">Title</label>
+                <input type="text" id="edit-title" required style="width: 100%; padding: 10px; background: #333; border: 1px solid #555; border-radius: 4px; color: #fff; font-size: 1em; box-sizing: border-box;">
+            </div>
+            <div style="margin-bottom: 15px;">
+                <label for="edit-content" style="display: block; margin-bottom: 5px; color: #ccc;">Content</label>
+                <textarea id="edit-content" rows="15" required style="width: 100%; padding: 10px; background: #333; border: 1px solid #555; border-radius: 4px; color: #fff; font-size: 1em; font-family: inherit; box-sizing: border-box; resize: vertical;"></textarea>
+            </div>
+            <div>
+                <button type="submit" class="button email" style="border: none; cursor: pointer;">Save</button>
+                <button type="button" class="button" style="background: #4a5568; color: white; border: none; cursor: pointer;" onclick="cancelEditor()">Cancel</button>
+            </div>
+        </form>
+    </section>
+
+    <script>
+    let token = null;
+
+    async function doLogin(event) {
+        event.preventDefault();
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        const errorDiv = document.getElementById('login-error');
+        errorDiv.style.display = 'none';
+
+        try {
+            const res = await fetch('/api/admin/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            });
+            const data = await res.json();
+            if (!res.ok) {
+                errorDiv.textContent = data.error || 'Login failed';
+                errorDiv.style.display = 'block';
+                return;
+            }
+            token = data.token;
+            document.getElementById('login-form').style.display = 'none';
+            document.getElementById('admin-panel').style.display = 'block';
+            loadAdminPosts();
+        } catch (err) {
+            errorDiv.textContent = 'Network error';
+            errorDiv.style.display = 'block';
+        }
+        return false;
+    }
+
+    function doLogout() {
+        token = null;
+        document.getElementById('admin-panel').style.display = 'none';
+        document.getElementById('post-editor').style.display = 'none';
+        document.getElementById('login-form').style.display = 'block';
+        document.getElementById('username').value = '';
+        document.getElementById('password').value = '';
+    }
+
+    function handleAuthError(res) {
+        if (res.status === 401) {
+            token = null;
+            document.getElementById('admin-panel').style.display = 'none';
+            document.getElementById('post-editor').style.display = 'none';
+            document.getElementById('login-form').style.display = 'block';
+            const errorDiv = document.getElementById('login-error');
+            errorDiv.textContent = 'Session expired. Please login again.';
+            errorDiv.style.display = 'block';
+            return true;
+        }
+        return false;
+    }
+
+    async function loadAdminPosts() {
+        const res = await fetch('/api/posts', {
+            headers: { 'Authorization': 'Bearer ' + token }
+        });
+        if (handleAuthError(res)) return;
+        const posts = await res.json();
+        const list = document.getElementById('admin-posts-list');
+        list.innerHTML = '';
+        if (posts.length === 0) {
+            list.innerHTML = '<p>No posts yet.</p>';
+            return;
+        }
+        posts.forEach(post => {
+            const div = document.createElement('div');
+            div.style.marginBottom = '15px';
+            div.style.padding = '15px';
+            div.style.background = '#333';
+            div.style.borderRadius = '6px';
+            div.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <strong style="font-size: 1.1em;">${escapeHtml(post.title)}</strong>
+                        <p style="color: #888; font-size: 0.85em; margin: 5px 0 0 0;">${new Date(post.created_at).toLocaleDateString()}</p>
+                    </div>
+                    <div>
+                        <button class="button" style="background: #61afef; color: white; border: none; cursor: pointer; padding: 8px 16px;" onclick="editPost(${post.id})">Edit</button>
+                        <button class="button" style="background: #e06c75; color: white; border: none; cursor: pointer; padding: 8px 16px;" onclick="deletePost(${post.id})">Delete</button>
+                    </div>
+                </div>
+            `;
+            list.appendChild(div);
+        });
+    }
+
+    function showEditor(post) {
+        document.getElementById('admin-panel').style.display = 'none';
+        document.getElementById('post-editor').style.display = 'block';
+    }
+
+    function cancelEditor() {
+        document.getElementById('post-editor').style.display = 'none';
+        document.getElementById('admin-panel').style.display = 'block';
+        document.getElementById('edit-id').value = '';
+        document.getElementById('edit-title').value = '';
+        document.getElementById('edit-content').value = '';
+    }
+
+    async function editPost(id) {
+        const res = await fetch('/api/posts/' + id, {
+            headers: { 'Authorization': 'Bearer ' + token }
+        });
+        if (handleAuthError(res)) return;
+        const post = await res.json();
+        document.getElementById('editor-title').textContent = 'Edit Post';
+        document.getElementById('edit-id').value = post.id;
+        document.getElementById('edit-title').value = post.title;
+        document.getElementById('edit-content').value = post.content;
+        showEditor();
+    }
+
+    async function deletePost(id) {
+        if (!confirm('Delete this post?')) return;
+        const res = await fetch('/api/admin/posts/' + id, {
+            method: 'DELETE',
+            headers: { 'Authorization': 'Bearer ' + token }
+        });
+        if (handleAuthError(res)) return;
+        loadAdminPosts();
+    }
+
+    async function savePost(event) {
+        event.preventDefault();
+        const id = document.getElementById('edit-id').value;
+        const title = document.getElementById('edit-title').value;
+        const content = document.getElementById('edit-content').value;
+
+        const method = id ? 'PUT' : 'POST';
+        const url = id ? '/api/admin/posts/' + id : '/api/admin/posts';
+
+        const res = await fetch(url, {
+            method,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+            body: JSON.stringify({ title, content })
+        });
+        if (handleAuthError(res)) return false;
+
+        cancelEditor();
+        loadAdminPosts();
+        return false;
+    }
+
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+    </script>
+</body>
+</html>

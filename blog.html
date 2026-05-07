@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - ilikepancakes.ink</title>
+    <meta name="description" content="ilikepancakes.ink blog">
+
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ilikepancakes.ink/blog">
+    <meta property="og:title" content="Blog - ilikepancakes.ink">
+    <meta property="og:description" content="ilikepancakes.ink blog">
+    <meta property="og:image" content="https://ilikepancakes.ink/favicon-32x32">
+    <meta property="twitter:card" content="summary">
+    <meta property="twitter:url" content="https://ilikepancakes.ink/blog">
+    <meta property="twitter:title" content="Blog - ilikepancakes.ink">
+    <meta property="twitter:description" content="ilikepancakes.ink blog">
+    <meta property="twitter:image" content="https://ilikepancakes.ink/favicon-32x32">
+    <meta name="theme-color" content="#1a1a1a">
+
+    <link rel="stylesheet" href="/style">
+</head>
+<body>
+    <h1><a href="/" style="color: #ffffff; text-decoration: none;">ilikepancakes.ink</a> / Blog</h1>
+
+    <section id="posts-container">
+        <h2>Posts</h2>
+        <div id="posts-list"></div>
+    </section>
+
+    <section id="post-viewer" style="display: none;">
+        <h2><a href="#" id="post-back-link" style="color: inherit; text-decoration: none; font-size: 0.5em;">&larr; Back to posts</a></h2>
+        <div id="post-content"></div>
+    </section>
+
+    <script>
+    const postsList = document.getElementById('posts-list');
+    const postsContainer = document.getElementById('posts-container');
+    const postViewer = document.getElementById('post-viewer');
+    const postContent = document.getElementById('post-content');
+    const postBackLink = document.getElementById('post-back-link');
+
+    async function loadPosts() {
+        const res = await fetch('/api/posts');
+        const posts = await res.json();
+        postsList.innerHTML = '';
+        if (posts.length === 0) {
+            postsList.innerHTML = '<p>No posts yet.</p>';
+            return;
+        }
+        posts.forEach(post => {
+            const div = document.createElement('div');
+            div.style.marginBottom = '20px';
+            div.style.paddingBottom = '15px';
+            div.style.borderBottom = '1px solid #333';
+            div.innerHTML = `
+                <h3><a href="#" onclick="event.preventDefault(); viewPost(${post.id})" style="color: #61afef; text-decoration: none;">${escapeHtml(post.title)}</a></h3>
+                <p style="color: #888; font-size: 0.85em;">${new Date(post.created_at).toLocaleDateString()} by ${escapeHtml(post.author)}</p>
+            `;
+            postsList.appendChild(div);
+        });
+    }
+
+    async function viewPost(id) {
+        const res = await fetch(`/api/posts/${id}`);
+        const post = await res.json();
+        postsContainer.style.display = 'none';
+        postViewer.style.display = 'block';
+        postContent.innerHTML = `
+            <h2>${escapeHtml(post.title)}</h2>
+            <p style="color: #888; font-size: 0.85em;">${new Date(post.created_at).toLocaleDateString()} by ${escapeHtml(post.author)}${post.updated_at !== post.created_at ? ' (updated)' : ''}</p>
+            <hr style="border-color: #333;">
+            <div style="line-height: 1.8;">${escapeHtml(post.content).replace(/\n/g, '<br>')}</div>
+        `;
+        window.scrollTo(0, 0);
+    }
+
+    postBackLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        postViewer.style.display = 'none';
+        postsContainer.style.display = 'block';
+        window.scrollTo(0, 0);
+    });
+
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    loadPosts();
+    </script>
+</body>
+</html>

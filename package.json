@@ -21,6 +21,9 @@
   },
   "homepage": "https://github.com/ilikepancakes-ink/tuff#readme",
   "dependencies": {
-    "express": "^5.1.0"
+    "better-sqlite3": "^12.9.0",
+    "dotenv": "^17.4.2",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.3"
   }
 }
