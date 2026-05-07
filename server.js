@@ -154,6 +154,12 @@ app.use(express.static(__dirname, {
     }
 }));
 
+// Assets directory with extensionless URL support
+app.use('/assets', express.static(path.join(__dirname, 'assets'), {
+    extensions: ['html', 'htm', 'css', 'js'],
+    index: 'index.html'
+}));
+
 // 404
 app.use((req, res) => {
     console.log(`404 - File not found: ${req.url}`);
