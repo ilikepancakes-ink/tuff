@@ -30,17 +30,8 @@
         <div id="posts-list"></div>
     </section>
 
-    <section id="post-viewer" style="display: none;">
-        <h2><a href="#" id="post-back-link" style="color: inherit; text-decoration: none; font-size: 0.5em;">&larr; Back to posts</a></h2>
-        <div id="post-content"></div>
-    </section>
-
     <script>
     const postsList = document.getElementById('posts-list');
-    const postsContainer = document.getElementById('posts-container');
-    const postViewer = document.getElementById('post-viewer');
-    const postContent = document.getElementById('post-content');
-    const postBackLink = document.getElementById('post-back-link');
 
     async function loadPosts() {
         const res = await fetch('/api/posts');
@@ -55,34 +46,14 @@
             div.style.marginBottom = '20px';
             div.style.paddingBottom = '15px';
             div.style.borderBottom = '1px solid #333';
+            const attCount = post.attachment_count || 0;
             div.innerHTML = `
-                <h3><a href="#" onclick="event.preventDefault(); viewPost(${post.id})" style="color: #61afef; text-decoration: none;">${escapeHtml(post.title)}</a></h3>
-                <p style="color: #888; font-size: 0.85em;">${new Date(post.created_at).toLocaleDateString()} by ${escapeHtml(post.author)}</p>
+                <h3><a href="/blogs/post/${post.slug}" style="color: #61afef; text-decoration: none;">${escapeHtml(post.title)}</a></h3>
+                <p style="color: #888; font-size: 0.85em;">${new Date(post.created_at).toLocaleDateString()} by ${escapeHtml(post.author)}${attCount > 0 ? ` - ${attCount} attachment(s)` : ''}</p>
             `;
             postsList.appendChild(div);
         });
     }
-
-    async function viewPost(id) {
-        const res = await fetch(`/api/posts/${id}`);
-        const post = await res.json();
-        postsContainer.style.display = 'none';
-        postViewer.style.display = 'block';
-        postContent.innerHTML = `
-            <h2>${escapeHtml(post.title)}</h2>
-            <p style="color: #888; font-size: 0.85em;">${new Date(post.created_at).toLocaleDateString()} by ${escapeHtml(post.author)}${post.updated_at !== post.created_at ? ' (updated)' : ''}</p>
-            <hr style="border-color: #333;">
-            <div style="line-height: 1.8;">${escapeHtml(post.content).replace(/\n/g, '<br>')}</div>
-        `;
-        window.scrollTo(0, 0);
-    }
-
-    postBackLink.addEventListener('click', (e) => {
-        e.preventDefault();
-        postViewer.style.display = 'none';
-        postsContainer.style.display = 'block';
-        window.scrollTo(0, 0);
-    });
 
     function escapeHtml(text) {
         const div = document.createElement('div');

@@ -65,6 +65,18 @@
                 <label for="edit-content" style="display: block; margin-bottom: 5px; color: #ccc;">Content</label>
                 <textarea id="edit-content" rows="15" required style="width: 100%; padding: 10px; background: #333; border: 1px solid #555; border-radius: 4px; color: #fff; font-size: 1em; font-family: inherit; box-sizing: border-box; resize: vertical;"></textarea>
             </div>
+
+            <!-- Attachments Section -->
+            <div style="margin-bottom: 15px; padding: 15px; background: #2a2a2a; border-radius: 6px; border: 1px solid #444;">
+                <label style="display: block; margin-bottom: 10px; color: #ccc; font-weight: bold;">Attachments (max 10, up to 5GB each)</label>
+                <div id="attachment-list" style="margin-bottom: 10px;"></div>
+                <div id="attachment-upload-area">
+                    <input type="file" id="attachment-files" multiple style="color: #ccc; margin-bottom: 10px;">
+                    <button type="button" class="button" style="background: #61afef; color: white; border: none; cursor: pointer; padding: 8px 16px;" onclick="uploadAttachments()">Upload Files</button>
+                    <div id="upload-progress" style="color: #888; font-size: 0.85em; margin-top: 5px;"></div>
+                </div>
+            </div>
+
             <div>
                 <button type="submit" class="button email" style="border: none; cursor: pointer;">Save</button>
                 <button type="button" class="button" style="background: #4a5568; color: white; border: none; cursor: pointer;" onclick="cancelEditor()">Cancel</button>
@@ -74,6 +86,7 @@
 
     <script>
     let token = null;
+    let currentEditPostId = null;
 
     async function doLogin(event) {
         event.preventDefault();
@@ -146,11 +159,12 @@
             div.style.padding = '15px';
             div.style.background = '#333';
             div.style.borderRadius = '6px';
+            const attCount = post.attachment_count || 0;
             div.innerHTML = `
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <div>
                         <strong style="font-size: 1.1em;">${escapeHtml(post.title)}</strong>
-                        <p style="color: #888; font-size: 0.85em; margin: 5px 0 0 0;">${new Date(post.created_at).toLocaleDateString()}</p>
+                        <p style="color: #888; font-size: 0.85em; margin: 5px 0 0 0;">${new Date(post.created_at).toLocaleDateString()} ${attCount > 0 ? `- ${attCount} attachment(s)` : ''}</p>
                     </div>
                     <div>
                         <button class="button" style="background: #61afef; color: white; border: none; cursor: pointer; padding: 8px 16px;" onclick="editPost(${post.id})">Edit</button>
@@ -173,6 +187,9 @@
         document.getElementById('edit-id').value = '';
         document.getElementById('edit-title').value = '';
         document.getElementById('edit-content').value = '';
+        currentEditPostId = null;
+        document.getElementById('attachment-list').innerHTML = '';
+        document.getElementById('attachment-files').value = '';
     }
 
     async function editPost(id) {
@@ -185,7 +202,9 @@
         document.getElementById('edit-id').value = post.id;
         document.getElementById('edit-title').value = post.title;
         document.getElementById('edit-content').value = post.content;
+        currentEditPostId = post.id;
         showEditor();
+        renderAttachments(post.attachments || []);
     }
 
     async function deletePost(id) {
@@ -217,9 +236,130 @@
         });
         if (handleAuthError(res)) return false;
 
+        const post = await res.json();
+        // If this was a new post, update the edit id for attachment uploads
+        if (!id) {
+            document.getElementById('edit-id').value = post.id;
+            currentEditPostId = post.id;
+        }
+
         cancelEditor();
         loadAdminPosts();
         return false;
+    }
+
+    // Attachment functions
+    function renderAttachments(attachments) {
+        const list = document.getElementById('attachment-list');
+        list.innerHTML = '';
+        if (!attachments || attachments.length === 0) {
+            list.innerHTML = '<p style="color: #888; font-size: 0.85em;">No attachments yet.</p>';
+            return;
+        }
+        attachments.forEach(att => {
+            const sizeStr = formatFileSize(att.file_size);
+            const div = document.createElement('div');
+            div.style.display = 'flex';
+            div.style.justifyContent = 'space-between';
+            div.style.alignItems = 'center';
+            div.style.padding = '8px 10px';
+            div.style.marginBottom = '5px';
+            div.style.background = '#333';
+            div.style.borderRadius = '4px';
+            div.innerHTML = `
+                <span style="color: #ccc; font-size: 0.9em;">
+                    <a href="/uploads/${att.filename}" target="_blank" style="color: #61afef; text-decoration: none;">${escapeHtml(att.original_name)}</a>
+                    <span style="color: #888; font-size: 0.8em; margin-left: 8px;">(${sizeStr})</span>
+                </span>
+                <button class="button" style="background: #e06c75; color: white; border: none; cursor: pointer; padding: 4px 10px; font-size: 0.8em;" onclick="deleteAttachment(${att.id})">Remove</button>
+            `;
+            list.appendChild(div);
+        });
+    }
+
+    async function uploadAttachments() {
+        const fileInput = document.getElementById('attachment-files');
+        const files = fileInput.files;
+        const progressDiv = document.getElementById('upload-progress');
+
+        if (!files || files.length === 0) {
+            progressDiv.textContent = 'Please select files first.';
+            return;
+        }
+
+        const postId = document.getElementById('edit-id').value;
+        if (!postId) {
+            progressDiv.textContent = 'Please save the post first before uploading attachments.';
+            return;
+        }
+
+        const formData = new FormData();
+        for (let i = 0; i < files.length; i++) {
+            formData.append('files', files[i]);
+        }
+
+        progressDiv.textContent = `Uploading ${files.length} file(s)...`;
+
+        try {
+            const res = await fetch(`/api/admin/posts/${postId}/attachments`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                },
+                body: formData
+            });
+
+            if (handleAuthError(res)) return;
+
+            const data = await res.json();
+            if (!res.ok) {
+                progressDiv.textContent = 'Upload failed: ' + (data.error || 'Unknown error');
+                return;
+            }
+
+            progressDiv.textContent = `Uploaded ${data.attachments.length} file(s) successfully.`;
+            fileInput.value = '';
+
+            // Reload post to get updated attachments
+            const postRes = await fetch('/api/posts/' + postId, {
+                headers: { 'Authorization': 'Bearer ' + token }
+            });
+            if (!handleAuthError(postRes)) {
+                const post = await postRes.json();
+                renderAttachments(post.attachments || []);
+            }
+        } catch (err) {
+            progressDiv.textContent = 'Network error during upload.';
+        }
+    }
+
+    async function deleteAttachment(attachmentId) {
+        if (!confirm('Delete this attachment?')) return;
+        const postId = document.getElementById('edit-id').value;
+        const res = await fetch(`/api/admin/posts/${postId}/attachments/${attachmentId}`, {
+            method: 'DELETE',
+            headers: { 'Authorization': 'Bearer ' + token }
+        });
+        if (handleAuthError(res)) return;
+        const data = await res.json();
+        if (!data.success) return;
+
+        // Reload post to get updated attachments
+        const postRes = await fetch('/api/posts/' + postId, {
+            headers: { 'Authorization': 'Bearer ' + token }
+        });
+        if (!handleAuthError(postRes)) {
+            const post = await postRes.json();
+            renderAttachments(post.attachments || []);
+        }
+    }
+
+    function formatFileSize(bytes) {
+        if (bytes === 0) return '0 B';
+        const units = ['B', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(1024));
+        const size = (bytes / Math.pow(1024, i)).toFixed(i > 0 ? 1 : 0);
+        return size + ' ' + units[i];
     }
 
     function escapeHtml(text) {
