@@ -112,10 +112,10 @@ app.get('/block', (req, res) => {
 <body>
     <h1>Blocked</h1>
     <p>Your IP: <strong>${ip}</strong></p>
-    <p>Access to this resource from your IP address has been blocked. If you believe this is an error, please contact the webmaster.</p>
+    <p>get blocked loser haha</p>
     <a href="mailto:webmaster@ilikepancakes.ink" class="button">contact webmaster</a>
     <hr>
-    <p>Error Status: Cloudflare Access Denied "ERR_CONNECTION_REFUSED"</p>
+    <p>suck my HRTitties</p>
 </body>
 </html>`);
 });

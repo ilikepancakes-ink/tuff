@@ -37,7 +37,7 @@
         <p>EN🇬🇧/NL 🇳🇱</p>
         <p>sysadmin</p>
         <p>hobbyist</p>
-        <li>i like hiking</li>
+        <p>i like hiking</p>
         <p>i code alot</p>
          <a href="abutmw" class="button about">About Me</a>
     </section>
@@ -85,76 +85,6 @@
                  style="image-rendering: pixelated; image-rendering: -moz-crisp-edges; image-rendering: crisp-edges;">
             <hr>
     </section>
-
-     <div class="contact">
-        <h2>Music</h2>
-        <hr>
-        <iframe src="https://spotifysitewiget.vercel.app/widget.html?userId=70.105.8.220&theme=dark&size=medium&controls=false&progress=false" width="400" height="350" frameborder="0" style="border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);" loading="lazy"></iframe>
-        <hr>
-    <div class="arch-button-container">
-        <a href="linux/archlinux.html" class="button arch">Arch</a>
-    </div>
-
-    <script>
-        function copyToClipboard(button) {
-            // Find the code element within the same container
-            const container = button.parentElement;
-            const codeElement = container.querySelector('code');
-            const textToCopy = codeElement.textContent;
-
-            // Use the modern clipboard API
-            if (navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard.writeText(textToCopy).then(() => {
-                    showCopySuccess(button);
-                }).catch(err => {
-                    console.error('Failed to copy text: ', err);
-                    fallbackCopyTextToClipboard(textToCopy, button);
-                });
-            } else {
-                // Fallback for older browsers or non-secure contexts
-                fallbackCopyTextToClipboard(textToCopy, button);
-            }
-        }
-
-        function fallbackCopyTextToClipboard(text, button) {
-            const textArea = document.createElement("textarea");
-            textArea.value = text;
-
-            // Avoid scrolling to bottom
-            textArea.style.top = "0";
-            textArea.style.left = "0";
-            textArea.style.position = "fixed";
-            textArea.style.opacity = "0";
-
-            document.body.appendChild(textArea);
-            textArea.focus();
-            textArea.select();
-
-            try {
-                const successful = document.execCommand('copy');
-                if (successful) {
-                    showCopySuccess(button);
-                } else {
-                    console.error('Fallback: Copying text command was unsuccessful');
-                }
-            } catch (err) {
-                console.error('Fallback: Oops, unable to copy', err);
-            }
-
-            document.body.removeChild(textArea);
-        }
-
-        function showCopySuccess(button) {
-            const originalText = button.textContent;
-            button.textContent = 'Copied!';
-            button.classList.add('copied');
-
-            setTimeout(() => {
-                button.textContent = originalText;
-                button.classList.remove('copied');
-            }, 2000);
-        }
-    </script>
-      
+  <!-- i cleaned up this website and removed the useless bullshit ja --> 
 </body>
 </html>
